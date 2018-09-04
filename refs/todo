@@ -1,0 +1,28 @@
+✔ define data model for games @done(18-09-05 14:05)
+    ✔ genres @done(18-09-05 14:04)
+        id | name
+    ✔ games @done(18-09-05 14:04)
+        id | genreid | name | official link | up | down
+✔ build framework @done(18-09-05 14:04)
+    ✔ flask @done(18-09-05 14:04)
+☐ style
+    ✔ add bootstrap @done(18-09-05 14:05)
+    ☐ add nav / header
+    ☐ add filter by type
+    ☐ add dynamic sorting
+☐ users
+    ☐ users table
+        id | egid | name
+☐ comments
+    ☐ comments table
+        id | gameid | userid | comment | promoted | date
+    ☐ expandable comments
+☐ votes by user
+    ☐ votes table
+        id | gameid | userid | up | down | date
+☐ reviews
+    ☐ reviews / trailer
+        id | gameid | link | site / channel | type (review / trailer)
+    ☐ sites
+        id | name | url
+☐ add admin
