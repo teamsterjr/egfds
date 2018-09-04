@@ -1,0 +1,31 @@
+{% extends "bootstrap/base.html" %} {% block content %}
+<main role="main" class="container">
+    <div>
+        <h1>Eurogamer's Nintendo Switch eShop Recommendation List</h1>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Genre</th>
+                    <th class="text-center">Score</th>
+                    <th class="text-center">Number of votes</th>
+                    <th class="text-center">Up</th>
+                    <th class="text-center">Down</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for game in games %}
+                <tr>
+                    <th scope="row">{{ game.name }}</th>
+                    <td>{{ game.genre }}</td>
+                    <td>{{ game.total }}
+                        <td>{{ game.num_votes if game.num_votes else '-' }}</td>
+                        <td>{{game.up if game.up else '-'}}</td>
+                        <td>{{game.down if game.down else '-'}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}
