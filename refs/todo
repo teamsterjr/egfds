@@ -1,15 +1,19 @@
-✔ define data model for games @done(18-09-05 14:05)
-    ✔ genres @done(18-09-05 14:04)
+✔ define data model for games @done
+    ✔ genres @done
         id | name
-    ✔ games @done(18-09-05 14:04)
+    ✔ games @done
         id | genreid | name | official link | up | down
-✔ build framework @done(18-09-05 14:04)
-    ✔ flask @done(18-09-05 14:04)
+✔ build framework @done
+    ✔ flask @done
 ☐ style
-    ✔ add bootstrap @done(18-09-05 14:05)
+    ✔ add bootstrap @done
     ☐ add nav / header
-    ☐ add filter by type
     ☐ add dynamic sorting
+    ☐ add filter by type
+    ☐ add popover for stats on voting
+    ☐ marmite mode?
+✔ deploy to elastic beanstalk @done
+☐ migrate to proper db
 ☐ users
     ☐ users table
         id | egid | name
