@@ -2,7 +2,7 @@
 <main role="main" class="container">
     <div>
         <h1>Eurogamer's Nintendo Switch eShop Recommendation List</h1>
-        <table class="table table-bordered table-hover table-striped">
+        <table class="table table-bordered table-hover table-striped" id="recommendation">
             <thead>
                 <tr>
                     <th class="text-center">Name</th>
@@ -11,6 +11,7 @@
                     <th class="text-center">Number of votes</th>
                     <th class="text-center">Up</th>
                     <th class="text-center">Down</th>
+                    <th class="text-center">Type</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,10 +23,28 @@
                         <td>{{ game.num_votes if game.num_votes else '-' }}</td>
                         <td>{{game.up if game.up else '-'}}</td>
                         <td>{{game.down if game.down else '-'}}</td>
+                        <td>
+                            {% if game.total > 0%} YAY {% elif game.total
+                            < 0 %} BOO {%else%} MEH {%endif%} </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </main>
-{% endblock %}
+{% endblock %} {% block scripts %} {{super()}}
+<script src="/static/js/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#recommendation').DataTable({
+            info: false,
+            paging: false,
+            order: ['2', 'desc'],
+            columnDefs: [
+                { "visible": false, "targets": [3, 4, 5, 6] }
+            ]
+
+        });
+    });
+</script> {%endblock %} {%block styles %} {{super()}}
+<link href="/static/css/datatables.min.css" rel="stylesheet"> {%endblock%}
