@@ -8,16 +8,17 @@
 ☐ style
     ✔ add bootstrap @done
     ✔ add dynamic sorting @done
+    ✔ remove flask-bootstrap @done
     ☐ add nav / header
     ☐ add filter by genre nav
     ☐ add grouping by yay/meh/boo (rowgroup)
-    ☐ add modal for info
+    ☐ add modal for info / child cell
     ☐ marmite mode?
 ✔ deploy to elastic beanstalk @done
 ☐ migrate to proper db
-☐ users
-    ☐ users table
-        id | egid | name
+✔ users @done
+    ✔ users table @done
+        id | pass | name
 ☐ comments
     ☐ comments table
         id | gameid | userid | comment | promoted | up | down | date
@@ -28,3 +29,8 @@
     ☐ sites
         id | name | url
 ☐ add admin
+    ✔ move secret key out of git @done
+    ✔ move data out of repo @done
+    ✔ admin user control @done
+    ☐ manage comments
+    ☐ manage games

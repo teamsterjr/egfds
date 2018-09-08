@@ -13,7 +13,7 @@ def index():
     db = get_db()
     games = db.execute(
         'SELECT g.name, g.up, g.down, g.up - g.down as total, g.up + g.down as num_votes, ge.name as genre'
-        ' FROM games g, genres ge where g.genre_id = ge.id'
+        ' FROM game g, genre ge where g.genre_id = ge.id'
         ' ORDER BY total desc, num_votes desc'
     ).fetchall()
 
