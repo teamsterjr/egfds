@@ -1,0 +1,49 @@
+{% block doc -%}
+<!DOCTYPE html>
+<html {% block html_attribs %}{% endblock html_attribs %}>
+{%- block html %}
+
+<head>
+    {%- block head %}
+    <title>{% block title %}{{title|default}}{% endblock title %}</title>
+
+    {%- block metas %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%- endblock metas %}
+
+    {%- block styles %}
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/datatables.min.css" rel="stylesheet">
+    {%- endblock styles %}
+    {%- endblock head %}
+</head>
+
+<body {% block body_attribs %}{% endblock body_attribs %}>
+    {% block body -%}
+    <main role="main" class="container">
+        {% block navbar %}
+        <header>
+            {% block header %}{% endblock %}
+        </header>
+        {%- endblock navbar %}
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+        {% endfor %}
+        <div>
+            {% block content -%}
+            {%- endblock content %}
+        </div>
+    </main>
+
+    {% block scripts %}
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/datatables.min.js"></script>
+    {%- endblock scripts %}
+    {%- endblock body %}
+</body>
+{%- endblock html %}
+
+</html>
+{% endblock doc -%}
