@@ -4,6 +4,7 @@ from flask import (
     Blueprint,
     flash,
     g,
+    jsonify,
     redirect,
     render_template,
     request,
@@ -14,6 +15,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask.cli import with_appcontext
 
 from ninty.db import get_db
+from ninty.games import get_games
 
 bp = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -118,7 +120,6 @@ def logout():
 @login_required
 def index():
     return render_template("admin/add_comments.html")
-
 
 def init_app(app):
     app.cli.add_command(register_command)
