@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block styles%}
+{{super()}}
+<style>
+
+    .tt-query { /* UPDATE: newer versions use tt-input instead of tt-query */
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+    display:none
+}
+
+.tt-menu { /* UPDATE: newer versions use tt-menu instead of tt-dropdown-menu */
+    width: 422px;
+    margin-top: 12px;
+    padding: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+    padding: 3px 20px;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+</style>
+{% endblock styles%}
+
+{% block header %}
+<h5>{% block title %}User {{ user.username}}{% endblock %}</h5>
+{% endblock %}
+
+{% block content %}
+<form id = "comment">
+    <input name="gameId" type="hidden" id="gameId">
+    <input name="userId" type="hidden" value="{{ user.id }}">
+    <table class="table table-bordered table-hover table-striped" id="comments">
+        <thead>
+            <th class="text-center">Game</th>
+            <th class="text-center">Comment</th>
+            <th class="text-center">Vote</th>
+            <th class="text-center">Date</th>
+        </thead>
+        <tbody>
+            {% for comment in comments %}
+            <tr>
+                <th scope="row">{{ comment.game }}</th>
+                <td>{{ comment.comment }} </td>
+                <td class="text-center">
+                    {% if comment.vote > 0 %}
+                    <img src="/static/images/thumb-up.svg" alt="YAY" class="icon">
+                    {% elif comment.vote == 0 %}
+                    <img src="/static/images/meh.svg" alt="MEH" class="icon">
+                    {% else %}
+                    <img src="/static/images/thumb-down.svg" alt="BOO" class="icon">
+                    {% endif %}
+                </td>
+                <td>{{ comment.date }} </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>
+                    <input class="form-control typeahead" id="game" placeholder="Game">
+                </td>
+                <td>
+                    <input class="form-control" name="comment" id="comment" placeholder="comment">
+                </td>
+                <td>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="vote{{counter}}" id="inlineRadio{{counter}}1"
+                            value="+1">
+                        <label class="form-check-label" for="inlineRadio{{counter}}1">
+                            <img src="/static/images/thumb-up.svg" alt="YAY" class="icon">
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="vote{{counter}}" id="inlineRadio{{counter}}2"
+                            value="0" value="0" value="0" checked>
+                        <label class="form-check-label" for="inlineRadio{{counter}}2">
+                            <img src="/static/images/meh.svg" alt="MEH" class="icon">
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="vote{{counter}}" id="inlineRadio{{counter}}3"
+                            value="-1">
+                        <label class="form-check-label" for="inlineRadio{{counter}}3">
+                            <img src="/static/images/thumb-down.svg" alt="BOO" class="icon">
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    <input class="form-control" id="date" name="date" placeholder="Date">
+                </td>
+                <td>
+                    <a id="addComment" class="btn btn-primary col4">
+                        <img src="/static/images/plus.svg" class="icon">
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="/static/js/typeahead.bundle.js"></script>
+<script>
+    var found = undefined
+
+    $(document).ready(function () {
+    var games = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+            url: '/games.json',
+            cache: false
+        }
+    });
+    $('.typeahead').typeahead(null, {
+        display: 'name',
+        source: games,
+        hint: false,
+        highlight: true
+    }).on('typeahead:selected', function (e, datum) {
+        console.log('selected')
+        found = datum
+    }).on('typeahead:autocomplete', function(e, datum) {
+        console.log('autocomplete')
+        found = datum
+    })
+    .on('change', function (event, datum) {
+        if (found) {
+            $('#gameId').val(found.id)
+        }
+        else {
+            // also show the genre drop down
+            $('#gameId').val("")
+        }
+        found = undefined
+    });
+
+    $('#addComment').click(function() {
+        console.log($('form#comment').serialize())
+        $.post({
+            url: '{{ url_for('admin.add_comment') }}',
+            data: $('form#comment').serialize(),
+            success: function(data) {
+                console.log(data)
+            }
+        }).fail(function (data) {
+            alert(data.responseJSON.error)
+        })
+    })
+});
+
+</script>
+{% endblock %}

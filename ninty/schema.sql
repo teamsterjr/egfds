@@ -21,3 +21,14 @@ CREATE TABLE user
     password TEXT,
     deleted BOOLEAN NOT NULL DEFAULT 1
 );
+CREATE TABLE comment
+(
+    id INTEGER PRIMARY KEY,
+    gameid INTEGER NOT NULL,
+    userid INTEGER NOT NULL,
+    comment TEXT,
+    promoted BOOLEAN NOT NULL DEFAULT 0,
+    up INTEGER,
+    down INTEGER,
+    date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

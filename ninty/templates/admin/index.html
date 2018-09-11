@@ -9,7 +9,7 @@
                 <th class="text-center">Admin</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="userBody">
             {% for user in users %}
             <tr>
                 <th scope="row"><a href="{{ url_for('admin.show_user_profile', username=user['username'])}}"> {{
@@ -28,11 +28,11 @@
             -->
             </tr>
             {% endfor %}
-            <tr>
+            <tr id='newUser'>
                 <td colspan="2" class="collapse" id="exampleCollapse">
                     <form id="newUserForm">
                         <div class="form-group">
-                            <label for="newUser">Username</label>
+                            <label for="newUsername">Username</label>
                             <input class="form-control" name='newUsername' id="newUserUsername" placeholder="EG UserName">
                         </div>
                         <div class="form-check">
@@ -75,7 +75,8 @@
                 url: '{{url_for('admin.add_user')}}',
                 data: $('#newUserForm').serialize(),
                 success: function (data) {
-
+                    console.log(data)
+                    $("#newUser").before('<tr><th scope="row"><a href="/adm/user/'+data.username+'">'+data.username+'</a></td><td></td></tr>')
                 },
             }).fail(function (data) {
                 alert(data.responseJSON.error)
