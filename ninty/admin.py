@@ -1,5 +1,7 @@
 import functools
 import click
+from dateutil.parser import parse
+from datetime import *
 from flask import (
     Blueprint,
     flash,
@@ -117,7 +119,6 @@ def register(username, password, admin=False):
         return {"code": 200}
     return error
 
-
 @bp.route('/logout')
 def logout():
     session.clear()
@@ -133,22 +134,56 @@ def index():
 
 
 @bp.route('/user/<username>')
+@login_required
 def show_user_profile(username):
     # show the user profile for that user
-    return 'User %s' % username
+    user = query_db('select * from user where username=?', [username],True)
+    comments = query_db('select g.name as game, c.comment, c.up - c.down as vote, c.date from comment c inner join game g on c.gameId = g.id where c.userId=?', [user.get("id")])
+    return render_template("admin/user.html", user=user, comments=comments)
 
 
 @bp.route('/user/add-user', methods=["POST"])
+@login_required
 def add_user():
+    username = request.form.get("newUsername")
+    admin = request.form.get("newAdmin", 0)
     returnVal = register(
-        request.form.get("newUsername"),
+        username,
         request.form.get("password"),
-        request.form.get("newAdmin", 0)
+        admin
     )
     if returnVal.get("code", 200) == 200:
-        return jsonify(success=True)
+        return jsonify(success=True, username=username, admin=admin)
     else:
         return jsonify(returnVal), returnVal.get("code")
+
+@bp.route('/user/add-comment', methods=["POST"])
+@login_required
+def add_comment():
+    # game / user / comment / vote / date
+    gameId = request.form.get("gameId")
+    userId = request.form.get("userId")
+    comment = request.form.get("comment")
+    up = 0
+    down = 0
+    vote = request.form.get("vote",0)
+    if int(vote)> 0:
+        up = 1
+    if int(vote) < 0:
+        down = 1
+    date = request.form.get("date")
+    date = parse(date) if date else "{}".format(datetime.now().strftime("%d/%m/%y %H:%M:%S"))
+    print([gameId, userId, comment, date])
+    db = get_db()
+    try:
+        db.execute(
+            'INSERT INTO comment (gameid, userid, comment, date, up, down) VALUES (?, ?, ?, ?, ?, ?)',
+            (gameId, userId, comment, date, up, down)
+        )
+        db.commit()
+    except sqlite3.Error as e:
+        print(e)
+    return jsonify(success=True)
 
 
 def init_app(app):

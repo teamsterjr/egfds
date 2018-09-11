@@ -20,7 +20,7 @@
     ✔ users table @done
         id | pass | name
 ☐ comments
-    ☐ comments table
+    ✔ comments table @done
         id | gameid | userid | comment | promoted | up | down | date
     ☐ expandable comments
 ☐ reviews
@@ -32,11 +32,11 @@
     ✔ move secret key out of git @done
     ✔ move data out of repo @done
     ✔ manage users @done
+    ☐ admin user control
+        ☐ manage comments
     ☐ manage games
         ☐ editable table
         http://vitalets.github.io/x-editable/docs.html#newrecord
     ☐ manage genres
-    ☐ admin user control
-        ☐ manage comments
 
 ☐ add platforms
