@@ -5,9 +5,11 @@ import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 
+
 def make_dicts(cursor, row):
     return dict((cursor.description[idx][0], value)
                 for idx, value in enumerate(row))
+
 
 def get_db():
     if 'db' not in g:
@@ -19,11 +21,13 @@ def get_db():
 
     return g.db
 
+
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv
+
 
 def close_db(e=None):
     db = g.pop('db', None)
@@ -38,6 +42,9 @@ def init_db():
         db.executescript(f.read().decode('utf8'))
     for directory, subdirectories, files in os.walk(os.path.join(current_app.instance_path, "data")):
         for file in files:
+            if not file.endswith('.sql'):
+                continue
+            print(file)
             with current_app.open_resource(os.path.join(directory, file)) as f:
                 db.executescript(f.read().decode('utf8'))
 

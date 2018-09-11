@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="users">
+    <h4 class="row">Users:</h4>
+    <table class="table table-bordered table-hover table-striped" id="users">
+        <thead>
+            <tr>
+                <th class="text-center">Name</th>
+                <th class="text-center">Admin</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <th scope="row"><a href="{{ url_for('admin.show_user_profile', username=user['username'])}}"> {{
+                        user.username }} </a></th>
+                <td>
+                    {% if user.admin %}
+                    <img src="/static/images/check.svg" alt="admin" class="icon">
+                    {% else %}
+                    &nbsp;
+                    {% endif %}
+                </td>
+                <!--
+                <td style="width:20px;">
+                    <a id="deleteUser"><img src="/static/images/ban.svg" class="icon"></a>
+                </td>
+            -->
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2" class="collapse" id="exampleCollapse">
+                    <form id="newUserForm">
+                        <div class="form-group">
+                            <label for="newUser">Username</label>
+                            <input class="form-control" name='newUsername' id="newUserUsername" placeholder="EG UserName">
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" name="newAdmin" value="1" class="form-check-input" id="newUserAdmin">
+                            <label class="form-check-label" for="newUserAdmin">Admin?</label>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" id="submitNewUser" data-toggle="collapse" data-target="#exampleCollapse"
+                            class="btn btn-primary">Save changes</button>
+                        <button type="button" id="clearNewUser" data-toggle="collapse" data-target="#exampleCollapse"
+                            class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row justify-content-end">
+        <a id="addUser" data-toggle="collapse" data-target="#exampleCollapse" class="btn btn-primary col4">
+            <img src="/static/images/plus.svg" class="icon">
+        </a>
+    </div>
+</div>
+<div class="games">
+    <h4>Games:</h4>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script>
+    $(document).ready(function () {
+        $("#clearNewUser").click(function () {
+            $('#newUserForm').trigger("reset");
+        })
+
+        $("#submitNewUser").click(function () {
+            $.post({
+                url: '{{url_for('admin.add_user')}}',
+                data: $('#newUserForm').serialize(),
+                success: function (data) {
+
+                },
+            }).fail(function (data) {
+                alert(data.responseJSON.error)
+            })
+        })
+        /*
+        $("#deleteUser").click(function () {
+            $.post({
+                url: '{{url_for('admin.add_user')}}',
+                data: $('#newUserForm').serialize(),
+                success: function (data) {
+
+                }
+            })
+        })
+        */
+    })
+</script>
+{% endblock scripts %}
