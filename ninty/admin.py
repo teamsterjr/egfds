@@ -11,13 +11,14 @@ from flask import (
     session,
     url_for,
 )
+
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask.cli import with_appcontext
 
-from ninty.db import get_db
+from ninty.db import get_db, query_db
 from ninty.games import get_games
 
-bp = Blueprint("admin", __name__, url_prefix="/admin")
+bp = Blueprint("admin", __name__, url_prefix="/adm")
 
 
 def login_required(view):
@@ -43,7 +44,7 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = (
-            get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
+            query_db("SELECT * FROM user WHERE id = ?", [user_id], True)
         )
 
 
@@ -55,10 +56,8 @@ def login():
         password = request.form["password"]
         db = get_db()
         error = None
-        user = db.execute(
-            "SELECT * FROM user WHERE username = ? and password is not null", (
-                username,)
-        ).fetchone()
+        user = query_db(
+            "SELECT * FROM user WHERE username = ? and password is not null and deleted = 0", [username], True)
 
         if user is None:
             error = "Incorrect username."
@@ -80,7 +79,13 @@ def login():
 @click.argument('username')
 @click.argument('password')
 @with_appcontext
-def register_command(username, password):
+def register_admin_command(username, password):
+    status = register(username, password, True)
+    print(status.get("error")) if not status.get(
+        "code") == 200 else print("YAY")
+
+
+def register(username, password, admin=False):
     """Register a new user.
 
     Validates that the username is not already taken. Hashes the
@@ -90,24 +95,27 @@ def register_command(username, password):
     error = None
 
     if not username:
-        error = 'Username is required.'
-    elif not password:
-        error = 'Password is required.'
-    elif db.execute(
-        'SELECT id FROM user WHERE username = ?', (username,)
-    ).fetchone() is not None:
-        error = 'User {0} is already registered.'.format(username)
+        error = {"error": 'Username is required.', "code": 400}
+    elif not password and admin:
+        error = {"error": 'Password is required for admin.', "code": 400}
+    elif query_db(
+            'SELECT id FROM user WHERE username = ?', [username], True) is not None:
+        error = {"error": 'User {0} is already registered.'.format(
+            username), "code": 409}
+
+    if password is not None:
+        password = generate_password_hash(password)
 
     if error is None:
         # the name is available, store it in the database and go to
         # the login page
         db.execute(
-            'INSERT INTO user (username, password) VALUES (?, ?)',
-            (username, generate_password_hash(password))
+            'INSERT INTO user (username, password, admin) VALUES (?, ?, ?)',
+            (username, password, admin)
         )
         db.commit()
-        return print("SUCCESS!")
-    print(error)
+        return {"code": 200}
+    return error
 
 
 @bp.route('/logout')
@@ -119,7 +127,29 @@ def logout():
 @bp.route("/")
 @login_required
 def index():
-    return render_template("admin/add_comments.html")
+    db = get_db()
+    users = query_db('select * from user')
+    return render_template("admin/index.html", users=users)
+
+
+@bp.route('/user/<username>')
+def show_user_profile(username):
+    # show the user profile for that user
+    return 'User %s' % username
+
+
+@bp.route('/user/add-user', methods=["POST"])
+def add_user():
+    returnVal = register(
+        request.form.get("newUsername"),
+        request.form.get("password"),
+        request.form.get("newAdmin", 0)
+    )
+    if returnVal.get("code", 200) == 200:
+        return jsonify(success=True)
+    else:
+        return jsonify(returnVal), returnVal.get("code")
+
 
 def init_app(app):
-    app.cli.add_command(register_command)
+    app.cli.add_command(register_admin_command)

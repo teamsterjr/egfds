@@ -17,5 +17,7 @@ CREATE TABLE user
 (
     id INTEGER PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+    admin BOOLEAN NOT NULL DEFAULT 0,
+    password TEXT,
+    deleted BOOLEAN NOT NULL DEFAULT 1
 );

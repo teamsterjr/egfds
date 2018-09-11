@@ -31,6 +31,12 @@
 ☐ add admin
     ✔ move secret key out of git @done
     ✔ move data out of repo @done
-    ✔ admin user control @done
-    ☐ manage comments
+    ✔ manage users @done
     ☐ manage games
+        ☐ editable table
+        http://vitalets.github.io/x-editable/docs.html#newrecord
+    ☐ manage genres
+    ☐ admin user control
+        ☐ manage comments
+
+☐ add platforms
