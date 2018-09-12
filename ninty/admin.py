@@ -185,6 +185,14 @@ def add_comment():
         print(e)
     return jsonify(success=True)
 
+@bp.route('dump')
+def dump():
+    db = get_db()
+    with open('instance/dump.sql', 'w') as f:
+        for line in db.iterdump():
+            f.write('%s\n' % line)
+    return "ok"
+
 
 def init_app(app):
     app.cli.add_command(register_admin_command)
