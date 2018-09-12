@@ -1,0 +1,11 @@
+pushd $(dirname "${0}") > /dev/null
+basedir=$(pwd -L)
+# Use "pwd -P" for the path without links. man bash for more info.
+cd ../
+rm -rf build
+mkdir -p build
+git archive HEAD | tar -x -C build
+mv build/TODO build/ninty/static/todo.txt
+popd > /dev/null
+
+echo "${basedir}"
