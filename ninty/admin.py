@@ -1,7 +1,9 @@
 import functools
 import click
 from dateutil.parser import parse
-from datetime import *
+from datetime import datetime
+import MySQLdb
+
 from flask import (
     Blueprint,
     flash,
@@ -17,7 +19,7 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask.cli import with_appcontext
 
-from ninty.db import get_db, query_db
+from ninty.db import get_db, query_db, commit_db
 from ninty.games import get_games
 
 bp = Blueprint("admin", __name__, url_prefix="/adm")
@@ -46,7 +48,7 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = (
-            query_db("SELECT * FROM user WHERE id = ?", [user_id], True)
+            query_db("SELECT * FROM user WHERE id = %s", [user_id], True)
         )
 
 
@@ -56,10 +58,9 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        db = get_db()
         error = None
         user = query_db(
-            "SELECT * FROM user WHERE username = ? and password is not null and deleted = 0", [username], True)
+            "SELECT * FROM user WHERE username = %s and password is not null and deleted = 0", [username], True)
 
         if user is None:
             error = "Incorrect username."
@@ -101,7 +102,7 @@ def register(username, password, admin=False):
     elif not password and admin:
         error = {"error": 'Password is required for admin.', "code": 400}
     elif query_db(
-            'SELECT id FROM user WHERE username = ?', [username], True) is not None:
+            'SELECT id FROM user WHERE username = %s', [username], True) is not None:
         error = {"error": 'User {0} is already registered.'.format(
             username), "code": 409}
 
@@ -112,10 +113,10 @@ def register(username, password, admin=False):
         # the name is available, store it in the database and go to
         # the login page
         db.execute(
-            'INSERT INTO user (username, password, admin) VALUES (?, ?, ?)',
+            'INSERT INTO user (username, password, admin) VALUES (%s, %s, %s)',
             (username, password, admin)
         )
-        db.commit()
+        commit_db()
         return {"code": 200}
     return error
 
@@ -128,7 +129,6 @@ def logout():
 @bp.route("/")
 @login_required
 def index():
-    db = get_db()
     users = query_db('select * from user')
     return render_template("admin/index.html", users=users)
 
@@ -137,8 +137,8 @@ def index():
 @login_required
 def show_user_profile(username):
     # show the user profile for that user
-    user = query_db('select * from user where username=?', [username],True)
-    comments = query_db('select g.name as game, c.comment, c.up - c.down as vote, c.date from comment c inner join game g on c.gameId = g.id where c.userId=?', [user.get("id")])
+    user = query_db('select * from user where username=%s', [username],True)
+    comments = query_db('select g.name as game, c.comment, c.up - c.down as vote, c.date from comment c, game_instance gi, game g where c.user_id=%s and c.instance_id = gi.id and g.id=gi.game_id', [user.get("id")])
     return render_template("admin/user.html", user=user, comments=comments)
 
 
@@ -161,7 +161,9 @@ def add_user():
 @login_required
 def add_comment():
     # game / user / comment / vote / date
-    gameId = request.form.get("gameId")
+    instanceId = request.form.get("instanceId", None)
+    if instanceId is None:
+        return jsonify(error="missing game"), 400
     userId = request.form.get("userId")
     comment = request.form.get("comment")
     up = 0
@@ -173,26 +175,18 @@ def add_comment():
         down = 1
     date = request.form.get("date")
     date = parse(date) if date else "{}".format(datetime.now().strftime("%d/%m/%y %H:%M:%S"))
-    print([gameId, userId, comment, date])
+    if (query_db("select 1 from comment where user_id=%s and instance_id=%s", [userId, instanceId], True)):
+       return jsonify(error="User has already commented on this game"), 409
     db = get_db()
     try:
         db.execute(
-            'INSERT INTO comment (gameid, userid, comment, date, up, down) VALUES (?, ?, ?, ?, ?, ?)',
-            (gameId, userId, comment, date, up, down)
+            'INSERT INTO comment (instance_id, user_id, comment, date, up, down) VALUES (%s, %s, %s, %s, %s, %s)',
+            (instanceId, userId, comment, date, up, down)
         )
-        db.commit()
-    except sqlite3.Error as e:
-        print(e)
+        commit_db()
+    except Exception:
+        return jsonify(error="something went wrong"), 400
     return jsonify(success=True)
-
-@bp.route('dump')
-def dump():
-    db = get_db()
-    with open('instance/dump.sql', 'w') as f:
-        for line in db.iterdump():
-            f.write('%s\n' % line)
-    return "ok"
-
 
 def init_app(app):
     app.cli.add_command(register_admin_command)

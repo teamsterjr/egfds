@@ -37,7 +37,7 @@
 
 {% block content %}
 <form id = "comment">
-    <input name="gameId" type="hidden" id="gameId">
+    <input name="instanceId" type="hidden" id="instanceId">
     <input name="userId" type="hidden" value="{{ user.id }}">
     <table class="table table-bordered table-hover table-striped" id="comments">
         <thead>
@@ -128,19 +128,18 @@
         hint: false,
         highlight: true
     }).on('typeahead:selected', function (e, datum) {
-        console.log('selected')
         found = datum
     }).on('typeahead:autocomplete', function(e, datum) {
-        console.log('autocomplete')
         found = datum
     })
     .on('change', function (event, datum) {
         if (found) {
-            $('#gameId').val(found.id)
+            console.log(found)
+            $('#instanceId').val(found.instance_id)
         }
         else {
             // also show the genre drop down
-            $('#gameId').val("")
+            $('#instanceId').val("")
         }
         found = undefined
     });
@@ -148,7 +147,7 @@
     $('#addComment').click(function() {
         console.log($('form#comment').serialize())
         $.post({
-            url: '{{ url_for('admin.add_comment') }}',
+            url: '{{ url_for("admin.add_comment") }}',
             data: $('form#comment').serialize(),
             success: function(data) {
                 console.log(data)

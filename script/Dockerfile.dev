@@ -1,0 +1,4 @@
+# For Python 3.4
+FROM ninty
+COPY . /var/app/ninty
+

@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=blah
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  ninty:
+    image: ninty:sub
+    build:
+      context: ..
+      dockerfile: script/Dockerfile.dev
+    links:
+      - db
+    ports:
+      - 5000:8080
+    environment:
+      - MYSQL_HOST=db
+      - FLASK_ENV=development
+    volumes:
+      - ../ninty:/var/app/ninty
+    entrypoint:
+      - bin/flask
+    command: ["run","-p","8080", "-h","0.0.0.0"]
+
+volumes:
+  db-data:

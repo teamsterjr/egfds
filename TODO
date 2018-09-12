@@ -19,8 +19,10 @@
     ✔ manage users @done
     ✔ admin user control @done
         ✔ manage comments @done
-☐ db / migrate to proper db
+✔ db / migrate to proper db @done
+✔ deploy / develop with docker @done
 ☐ feature / move to proper comment based votes
+
 ☐ style / add modal for info / child cell
 ☐ style / add modal for comments
 ☐ style / add nav / header
@@ -36,5 +38,6 @@
     ☐ editable table
     http://vitalets.github.io/x-editable/docs.html#newrecord
 ☐ admin / manage genres
+☐ sqlalchemy?
 
 ☐ feature / multi platforms
