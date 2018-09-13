@@ -37,9 +37,16 @@
     </main>
 
     {% block scripts %}
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/datatables.min.js"></script>
+    {% if config['ENV'] == 'development' %}
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/typeahead.bundle.js"></script>
+        <script src="/static/js/datatables.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/ninty.js"></script>
+    {% else %}
+        <script src="/static/js/main.min.js"></script>
+    {% endif %}
+
     {%- endblock scripts %}
     {%- endblock body %}
 </body>

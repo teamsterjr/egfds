@@ -1,0 +1,26 @@
+{
+  "name": "ninty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./build; gulp;",
+    "dist": "cd ../build;zip ../ninty.zip -r * .[^.]*",
+    "predist": "npm run build"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "file:///Users/aleknowl/files/ninty/repo/"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify": "^3.0.1"
+  },
+  "dependencies": {}
+}

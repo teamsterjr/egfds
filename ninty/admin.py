@@ -161,14 +161,19 @@ def add_user():
 @login_required
 def add_comment():
     # game / user / comment / vote / date
-    instanceId = request.form.get("instanceId", None)
-    if instanceId is None:
+    instanceId = request.form.get("instanceId")
+    if not instanceId:
         return jsonify(error="missing game"), 400
     userId = request.form.get("userId")
-    comment = request.form.get("comment")
+    comment = request.form.get("comment", None)
     up = 0
     down = 0
     vote = request.form.get("vote",0)
+    print("-{}-{}-".format(comment, vote), flush=True)
+    if not vote and not comment:
+        print('NOPE')
+        return jsonify(error="Either a vote of a comment is required"), 400
+
     if int(vote)> 0:
         up = 1
     if int(vote) < 0:
