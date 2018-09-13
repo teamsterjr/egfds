@@ -30,7 +30,7 @@
             {% endfor %}
             <tr id='newUser'>
                 <td colspan="2" class="collapse" id="exampleCollapse">
-                    <form id="newUserForm">
+                    <form id="newUserForm" data-action="{{ url_for('admin.add_user') }}">
                         <div class="form-group">
                             <label for="newUsername">Username</label>
                             <input class="form-control" name='newUsername' id="newUserUsername" placeholder="EG UserName">
@@ -61,38 +61,3 @@
 </div>
 
 {% endblock %}
-
-{% block scripts %}
-{{super()}}
-<script>
-    $(document).ready(function () {
-        $("#clearNewUser").click(function () {
-            $('#newUserForm').trigger("reset");
-        })
-
-        $("#submitNewUser").click(function () {
-            $.post({
-                url: '{{url_for('admin.add_user')}}',
-                data: $('#newUserForm').serialize(),
-                success: function (data) {
-                    console.log(data)
-                    $("#newUser").before('<tr><th scope="row"><a href="/adm/user/'+data.username+'">'+data.username+'</a></td><td></td></tr>')
-                },
-            }).fail(function (data) {
-                alert(data.responseJSON.error)
-            })
-        })
-        /*
-        $("#deleteUser").click(function () {
-            $.post({
-                url: '{{url_for('admin.add_user')}}',
-                data: $('#newUserForm').serialize(),
-                success: function (data) {
-
-                }
-            })
-        })
-        */
-    })
-</script>
-{% endblock scripts %}

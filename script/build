@@ -6,10 +6,11 @@ rm -rf build
 mkdir -p build
 git archive HEAD | tar -x -C build
 mv build/TODO build/ninty/static/todo.txt
-rm -r build/script
-cp ninty/config.py build/ninty
 cd build
-zip ../ninty.zip -r * .[^.]*
+rm -r script
+rm -rf data
+cp ../ninty/config.py ninty
+echo 'Dockerfile' > .dockerignore
 popd > /dev/null
 
 echo "${basedir}"

@@ -1,43 +1,49 @@
-✔ define data model for games @done
-    ✔ genres @done
-        id | name
-    ✔ games @done
-        id | genreid | name | official link | up | down
-✔ build flask framework
-✔ add bootstrap @done
-✔ add dynamic sorting @done
-✔ remove flask-bootstrap @done
-✔ deploy to elastic beanstalk @done
-✔ users @done
-✔ db / users table @done
-    id | pass | name
-✔ db/ comments table @done
-    id | gameid | userid | comment | promoted | up | down | date
-✔ add admin @done
-    ✔ move secret key out of git @done
-    ✔ move data out of repo @done
-    ✔ manage users @done
-    ✔ admin user control @done
-        ✔ manage comments @done
-✔ db / migrate to proper db @done
-✔ deploy / develop with docker @done
-☐ feature / move to proper comment based votes
+BUG:
+  ☐ bad transition on add user
 
-☐ style / add modal for info / child cell
-☐ style / add modal for comments
-☐ style / add nav / header
-☐ style / add filter by genre nav
-☐ style / add grouping by yay/meh/boo (rowgroup)
-☐ feature /marmite mode?
-☐ feature / game links
+Feature:
+  ☐ add nav / header
+  ☐ show game info in modal / child cell
+  ☐ show comments in modal / child cell
+  ☐ add filter by genre nav
+  ☐ add grouping by yay/meh/boo (rowgroup)
+
+  ☐ add game from comment
+  ☐ better validation
+  ☐ marmite mode?
+
+  Game Links:
     ☐ reviews / trailer
         id | gameid | link | site / channel | type (review / trailer)
     ☐ sites
         id | name | url
-☐ admin / manage games
+    ☐  multi platforms
+
+Admin:
+  Manage Games:
     ☐ editable table
     http://vitalets.github.io/x-editable/docs.html#newrecord
-☐ admin / manage genres
+    ☐ manage genres
 ☐ sqlalchemy?
 
-☐ feature / multi platforms
+Archive:
+  ✔ data model / games @done
+  ✔ data model / genres @done
+  ✔ db / users table @done
+    id | pass | name
+  ✔ db/ comments table @done
+    id | gameid | userid | comment | promoted | up | down | date
+  ✔ sec / move secret key out of git @done
+  ✔ sec /move data out of repo @done
+  ✔ admin user control @done
+    id | name
+  ✔ db / migrate to proper db @done
+  ✔ deploy / develop with docker @done
+  ✔ feature / move to proper comment based votes @done
+  ✔ db / games @done
+    id | genreid | name | official link | up | down
+  ✔ build flask framework
+  ✔ style / add bootstrap @done
+  ✔ feature / add dynamic sorting @done
+  ✔ remove flask-bootstrap @done
+  ✔ deploy / elastic beanstalk @done

@@ -2,4 +2,3 @@ Dockerfile
 instance
 build
 schema.sql
-script

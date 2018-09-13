@@ -37,20 +37,3 @@
         </tr> {% endfor %} </tbody>
 </table>
 {% endblock %}
-
-{% block scripts %}
-{{super()}}
-<script>
-    $(document).ready(function () {
-        $('#recommendation').DataTable({
-            info: false,
-            paging: false,
-            order: ['2', 'desc'],
-            columnDefs: [
-                { "visible": false, "targets": [3, 4, 5, 6] }
-            ]
-
-        });
-    });
-</script>
-{%endblock %}
