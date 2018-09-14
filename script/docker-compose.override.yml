@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  ninty:
+    image: ninty:sub
+    build:
+      context: ..
+      dockerfile: script/Dockerfile.dev
+    links:
+      - db
+    ports:
+      - 5000:8080
+    environment:
+      - MYSQL_HOST=db
+      - FLASK_ENV=development
+    volumes:
+      - ../ninty:/var/app/ninty
+    entrypoint:
+      - bin/flask
+    command: ["run","-p","8080", "-h","0.0.0.0"]

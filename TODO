@@ -1,15 +1,21 @@
 BUG:
+  ☐ jquery / datatable not working in minified version
   ☐ bad transition on add user
+  ☐ move from alert() to alert bootstrap component
 
 Feature:
   ☐ add nav / header
-  ☐ show game info in modal / child cell
+  ☐ show game info in modal / child cell / accordion?
   ☐ show comments in modal / child cell
   ☐ add filter by genre nav
   ☐ add grouping by yay/meh/boo (rowgroup)
 
   ☐ add game from comment
   ☐ better validation
+  ☐ proper svg sprite map
+  ☐ asset versioning / versioning
+
+
   ☐ marmite mode?
 
   Game Links:
