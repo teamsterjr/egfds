@@ -12,9 +12,9 @@
     {%- endblock metas %}
 
     {%- block styles %}
-    <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/datatables.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
     {%- endblock styles %}
     {%- endblock head %}
 </head>
@@ -38,12 +38,14 @@
 
     {% block scripts %}
     {% if config['ENV'] == 'development' %}
-        <script src="/static/js/jquery.min.js"></script>
-        <script src="/static/js/typeahead.bundle.js"></script>
-        <script src="/static/js/datatables.min.js"></script>
-        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/jquery.js"></script>
+        <script src="/static/js/bootstrap.js"></script>
+        <script src="/static/js/typeahead.js"></script>
+        <script src="/static/js/datatables.js"></script>
         <script src="/static/js/ninty.js"></script>
     {% else %}
+        <script src="/static/js/jquery.js"></script>
+        <script src="/static/js/bootstrap.js"></script>
         <script src="/static/js/main.min.js"></script>
     {% endif %}
 
