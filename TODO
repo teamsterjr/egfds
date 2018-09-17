@@ -18,6 +18,8 @@ BUG:
   ☐ onload datatable
 
 Feature:
+  ☐ page title!
+  ☐ favicon
   ☐ add search box for games
   ☐ show game info in modal / child cell / accordion?
   ☐ show comments in modal / child cell
