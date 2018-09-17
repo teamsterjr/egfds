@@ -1,6 +1,6 @@
-DROP database `ninty`;
-CREATE DATABASE `ninty`;
-use ninty;
+DROP database `EGFDS`;
+CREATE DATABASE `EGFDS`;
+use EGFDS;
 CREATE TABLE `genre` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
