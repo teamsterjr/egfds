@@ -16,5 +16,5 @@ services:
     volumes:
       - ../ninty:/var/app/ninty
     entrypoint:
-      - bin/flask
-    command: ["run","-p","8080", "-h","0.0.0.0"]
+      - bin/python
+    command: ["application.py"]

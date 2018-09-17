@@ -6,7 +6,7 @@
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             prefetch: {
-              url: '/games.json',
+              url: '/games/games.json',
               cache: false
             }
           }),
@@ -75,8 +75,9 @@
         columnDefs: [{
           "visible": false,
           "targets": [3, 4, 5, 6]
-        }]
-
+        }],
+        searching: false
       });
+
 
     });

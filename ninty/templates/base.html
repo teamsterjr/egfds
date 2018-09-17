@@ -21,32 +21,51 @@
 
 <body {% block body_attribs %}{% endblock body_attribs %}>
     {% block body -%}
-    <main role="main" class="container">
-        {% block navbar %}
-        <header>
-            {% block header %}{% endblock %}
+
+    <div class="d-flex {% block headercolour %}bg-primary{% endblock %} w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+            <div class="inner">
+                <h3><a class="masthead-brand" href="/">EG Forum Data Service</a></h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    {% block nav %}
+                    {% if sections %}
+                    {% for url, section in sections.items() %}
+                        {% if section.get('selected', False) %}
+                            <a class="nav-link active" href="#">{{section.name}}</a>
+                        {% else %}
+                            <a class="nav-link" href="{{section.url}}">{{section.name}}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endblock nav %}
+                </nav>
+            </div>
         </header>
-        {%- endblock navbar %}
-        {% for message in get_flashed_messages() %}
-        <div class="alert alert-primary" role="alert">{{ message }}</div>
-        {% endfor %}
-        <div>
-            {% block content -%}
-            {%- endblock content %}
+    </div>
+
+    <main role="main">
+        <div class="py-5">
+            <div class="container">
+                {% for message in get_flashed_messages() %}
+                <div class="row alert alert-warning" role="alert">{{ message }}</div>
+                {% endfor %}
+                {% block content -%}
+                {%- endblock content %}
+            </div>
         </div>
     </main>
 
     {% block scripts %}
     {% if config['ENV'] == 'development' %}
-        <script src="/static/js/jquery.js"></script>
-        <script src="/static/js/bootstrap.js"></script>
-        <script src="/static/js/typeahead.js"></script>
-        <script src="/static/js/datatables.js"></script>
-        <script src="/static/js/ninty.js"></script>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/typeahead.js"></script>
+    <script src="/static/js/datatables.js"></script>
+    <script src="/static/js/ninty.js"></script>
     {% else %}
-        <script src="/static/js/jquery.js"></script>
-        <script src="/static/js/bootstrap.js"></script>
-        <script src="/static/js/main.min.js"></script>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/main.min.js"></script>
     {% endif %}
 
     {%- endblock scripts %}

@@ -5,7 +5,6 @@ cd ../
 rm -rf build
 mkdir -p build
 git archive HEAD | tar -x -C build
-mv build/TODO build/ninty/static/todo.txt
 cd build
 rm -r script
 rm -rf data

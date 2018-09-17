@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 from . import db
+from . import main
 from . import games
 from . import admin
 
@@ -27,12 +28,12 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+
     db.init_app(app)
-
-    app.register_blueprint(games.bp)
-    app.add_url_rule("/", endpoint="index")
-
     admin.init_app(app)
+
+    app.register_blueprint(main.bp)
+    app.register_blueprint(games.bp)
     app.register_blueprint(admin.bp)
 
     return app

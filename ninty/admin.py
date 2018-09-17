@@ -1,6 +1,7 @@
 import functools
 import click
 from dateutil.parser import parse
+import collections
 from datetime import datetime
 import MySQLdb
 
@@ -10,17 +11,19 @@ from flask import (
     g,
     jsonify,
     redirect,
-    render_template,
     request,
     session,
     url_for,
+    send_file
 )
+
+from .main import render_with_nav
 
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask.cli import with_appcontext
 
-from ninty.db import get_db, query_db, commit_db
-from ninty.games import get_games
+from .db import get_db, query_db, commit_db
+from .games import get_games
 
 bp = Blueprint("admin", __name__, url_prefix="/adm")
 
@@ -75,7 +78,7 @@ def login():
 
         flash(error)
 
-    return render_template("admin/login.html")
+    return render_with_nav("admin/login.html", this='/login', sections=admin_sections())
 
 
 @click.command('register')
@@ -123,14 +126,14 @@ def register(username, password, admin=False):
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('admin.index'))
 
 
 @bp.route("/")
 @login_required
 def index():
     users = query_db('select * from user')
-    return render_template("admin/index.html", users=users)
+    return render_with_nav("admin/index.html", sections=admin_sections(), users=users)
 
 
 @bp.route('/user/<username>')
@@ -139,7 +142,7 @@ def show_user_profile(username):
     # show the user profile for that user
     user = query_db('select * from user where username=%s', [username],True)
     comments = query_db('select g.name as game, c.comment, c.up - c.down as vote, c.date from comment c, game_instance gi, game g where c.user_id=%s and c.instance_id = gi.id and g.id=gi.game_id', [user.get("id")])
-    return render_template("admin/user.html", user=user, comments=comments)
+    return render_with_nav("admin/user.html", user=user, this='/adm/user', comments=comments, sections=admin_sections())
 
 
 @bp.route('/user/add-user', methods=["POST"])
@@ -192,6 +195,21 @@ def add_comment():
     except Exception:
         return jsonify(error="something went wrong"), 400
     return jsonify(success=True)
+
+@bp.route("/todo")
+@login_required
+def todo():
+    return send_file('../TODO', mimetype='text/plain')
+
+
+def admin_sections():
+    sections = collections.OrderedDict()
+    sections['/']={'name':"Admin", 'url':'/adm'}
+    if(g.user):
+        sections['/logout']={'name':"Logout", 'url':'/adm/logout'}
+    else:
+        sections['/login']={'name':"Login", 'url':'/adm/login'}
+    return sections
 
 def init_app(app):
     app.cli.add_command(register_admin_command)

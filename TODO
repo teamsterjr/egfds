@@ -1,10 +1,17 @@
+LAYOUT:
+  ✔ Front page @done
+  ✔ add nav / header @done
+  ✔ admin nav @done
+  ☐ auto generate nav
+  ✔ /games/ @done
+
 BUG:
   ☐ jquery / datatable not working in minified version
   ☐ bad transition on add user
   ☐ move from alert() to alert bootstrap component
+  ☐ move to oo js
 
 Feature:
-  ☐ add nav / header
   ☐ show game info in modal / child cell / accordion?
   ☐ show comments in modal / child cell
   ☐ add filter by genre nav
@@ -14,8 +21,7 @@ Feature:
   ☐ better validation
   ☐ proper svg sprite map
   ☐ asset versioning / versioning
-
-
+  ☐ pagination
   ☐ marmite mode?
 
   Game Links:
