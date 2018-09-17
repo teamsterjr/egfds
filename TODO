@@ -2,16 +2,23 @@ LAYOUT:
   ✔ Front page @done
   ✔ add nav / header @done
   ✔ admin nav @done
-  ☐ auto generate nav
+  ☐ auto generate nav with wrapper
   ✔ /games/ @done
+  ☐ hide input on radio buttons
+  ✔ add comment after add @done
+
 
 BUG:
   ☐ jquery / datatable not working in minified version
   ☐ bad transition on add user
   ☐ move from alert() to alert bootstrap component
   ☐ move to oo js
+  ☐ datetime now localtime
+  ☐ format date on return
+  ☐ onload datatable
 
 Feature:
+  ☐ add search box for games
   ☐ show game info in modal / child cell / accordion?
   ☐ show comments in modal / child cell
   ☐ add filter by genre nav

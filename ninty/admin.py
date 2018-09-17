@@ -123,6 +123,7 @@ def register(username, password, admin=False):
         return {"code": 200}
     return error
 
+
 @bp.route('/logout')
 def logout():
     session.clear()
@@ -140,8 +141,9 @@ def index():
 @login_required
 def show_user_profile(username):
     # show the user profile for that user
-    user = query_db('select * from user where username=%s', [username],True)
-    comments = query_db('select g.name as game, c.comment, c.up - c.down as vote, c.date from comment c, game_instance gi, game g where c.user_id=%s and c.instance_id = gi.id and g.id=gi.game_id', [user.get("id")])
+    user = query_db('select * from user where username=%s', [username], True)
+    comments = query_db(
+        'select g.name as game, c.comment, c.up - c.down as vote, c.date from comment c, game_instance gi, game g where c.user_id=%s and c.instance_id = gi.id and g.id=gi.game_id', [user.get("id")])
     return render_with_nav("admin/user.html", user=user, this='/adm/user', comments=comments, sections=admin_sections())
 
 
@@ -160,6 +162,7 @@ def add_user():
     else:
         return jsonify(returnVal), returnVal.get("code")
 
+
 @bp.route('/user/add-comment', methods=["POST"])
 @login_required
 def add_comment():
@@ -171,20 +174,19 @@ def add_comment():
     comment = request.form.get("comment", None)
     up = 0
     down = 0
-    vote = request.form.get("vote",0)
-    print("-{}-{}-".format(comment, vote), flush=True)
+    vote = request.form.get("vote", 0)
     if not vote and not comment:
-        print('NOPE')
         return jsonify(error="Either a vote of a comment is required"), 400
 
-    if int(vote)> 0:
+    if int(vote) > 0:
         up = 1
     if int(vote) < 0:
         down = 1
     date = request.form.get("date")
-    date = parse(date) if date else "{}".format(datetime.now().strftime("%d/%m/%y %H:%M:%S"))
+    date = parse(date) if date else "{}".format(
+        datetime.now().strftime("%y/%m/%d %H:%M:%S"))
     if (query_db("select 1 from comment where user_id=%s and instance_id=%s", [userId, instanceId], True)):
-       return jsonify(error="User has already commented on this game"), 409
+        return jsonify(error="User has already commented on this game"), 409
     db = get_db()
     try:
         db.execute(
@@ -194,7 +196,10 @@ def add_comment():
         commit_db()
     except Exception:
         return jsonify(error="something went wrong"), 400
-    return jsonify(success=True)
+
+    # comments = query_db('select g.name as game, c.comment, c.up - c.down as vote, c.date from comment c, game_instance gi, game g where c.user_id=%s and c.instance_id = gi.id and g.id=gi.game_id', [user.get("id")])
+    return jsonify(success=True, comment=comment, game=request.form.get("game"), vote=vote, date=date)
+
 
 @bp.route("/todo")
 @login_required
@@ -204,12 +209,13 @@ def todo():
 
 def admin_sections():
     sections = collections.OrderedDict()
-    sections['/']={'name':"Admin", 'url':'/adm'}
+    sections['/'] = {'name': "Admin", 'url': '/adm'}
     if(g.user):
-        sections['/logout']={'name':"Logout", 'url':'/adm/logout'}
+        sections['/logout'] = {'name': "Logout", 'url': '/adm/logout'}
     else:
-        sections['/login']={'name':"Login", 'url':'/adm/login'}
+        sections['/login'] = {'name': "Login", 'url': '/adm/login'}
     return sections
+
 
 def init_app(app):
     app.cli.add_command(register_admin_command)
