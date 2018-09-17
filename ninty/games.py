@@ -2,16 +2,17 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
 )
 from werkzeug.exceptions import abort
-import pprint
 
 from .db import get_db, query_db
+from .main import render_with_nav
 
-bp = Blueprint('games', __name__)
+bp = Blueprint("games", __name__, url_prefix="/games")
 
 
 @bp.route('/')
-def index():
-    return render_template('index.html', games=get_games())
+def recommendations():
+    genres = query_db('select * from genre')
+    return render_with_nav('games/index.html', this='/games', games=get_games(), genres=genres)
 
 @bp.route('/games.json')
 def ajax_games():
