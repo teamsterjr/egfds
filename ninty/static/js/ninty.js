@@ -33,7 +33,16 @@
           url: $('form#comment').data('action'),
           data: $('form#comment').serialize(),
           success: function (data) {
-            //TODO - populate page
+            image = (
+                data.vote > 0 ? "thumb-up.svg" :
+                data.vote ==0 ? "meh.svg" :
+                "thumb-down.svg"
+            )
+
+            $("#newComment").before('<tr><th scope="row">' + data.game + '</th>' +
+            '<td>' + data.comment +
+            '</td><td class="text-center"><img class="icon" src="/static/images/' + image + '"></td>' +
+            '<td>' + data.date + '</td></tr>')
           }
         }).fail(function (data) {
           alert(data.responseJSON.error)
@@ -79,5 +88,8 @@
         searching: false
       });
 
-
+      $('#exampleModalLong').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget).closest('tr')
+        console.log(button.data())
+      });
     });

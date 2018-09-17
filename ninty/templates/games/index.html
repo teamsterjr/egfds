@@ -7,22 +7,22 @@
             <th class="text-center">Name</th>
             <th class="text-center">Genre</th>
             <th class="text-center">Score</th>
-            <th class="text-center">Number of votes</th>
-            <th class="text-center">Up</th>
-            <th class="text-center">Down</th>
-            <th class="text-center">Type</th>
+            <th class="text-center" hidden>Number of votes</th>
+            <th class="text-center" hidden>Up</th>
+            <th class="text-center" hidden>Down</th>
+            <th class="text-center" hidden>Type</th>
         </tr>
     </thead>
     <tbody>
         {%for game in games %}
         <tr>
-            <th scope="row">{{ game.name }}</th>
+            <th scope="row" data-toggle="modal" data-target="#exampleModalLong">{{ game.name }}</th>
             <td>{{ game.genre }}</td>
             <td>{{ game.total }}
-            <td>{{ game.num_votes if game.num_votes else '-' }}</td>
-            <td>{{game.up if game.up else '-'}}</td>
-            <td>{{game.down if game.down else '-'}}</td>
-            <td>
+            <td hidden>{{ game.num_votes if game.num_votes else '-' }}</td>
+            <td hidden>{{game.up if game.up else '-'}}</td>
+            <td hidden>{{game.down if game.down else '-'}}</td>
+            <td hidden>
                 {% if game.total > 0 %}
                 YAY
                 {% elif game.total %}
@@ -33,4 +33,26 @@
             </td>
         </tr> {% endfor %} </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

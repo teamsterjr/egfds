@@ -11,7 +11,7 @@ services:
     ports:
       - 5000:8080
     environment:
-      - MYSQL_HOST=db
+      - RDS_HOST=db
       - FLASK_ENV=development
     volumes:
       - ../ninty:/var/app/ninty

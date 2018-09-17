@@ -18,7 +18,6 @@ def default_sections():
     return sections
 
 def render_with_nav(tmpl_name, this='/', sections=default_sections(), **kwargs):
-    print(sections)
     if(sections.get(this)):
         sections[this]["selected"]=True
     return render_template(tmpl_name, sections=sections, **kwargs)
