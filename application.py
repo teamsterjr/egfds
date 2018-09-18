@@ -1,10 +1,10 @@
-from ninty import create_app
+from egfds import create_app
 import os
 
 app = create_app()
 
 if __name__ == '__main__':
-    extra_dirs = ['ninty',]
+    extra_dirs = ['egfds',]
     extra_files = extra_dirs[:]
     for extra_dir in extra_dirs:
         for dirname, dirs, files in os.walk(extra_dir):

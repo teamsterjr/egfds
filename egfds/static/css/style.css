@@ -42,11 +42,6 @@
 }
 
 
-.icon {
-    width: 16px;
-    height: 16px;
-}
-
 .tt-query {
     /* UPDATE: newer versions use tt-input instead of tt-query */
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -72,6 +67,23 @@
     padding: 3px 20px;
     font-size: 18px;
     line-height: 24px;
+}
+
+/**
+.up-vote > div.icon {
+    background-color: red;
+    -webkit-mask:  url(/static/images/thumb-up.svg) no-repeat 16px;
+    mask: url(/static/images/thumb_up.svg) no-repeat 16px;
+}
+*/
+
+.icon {
+    width: 16px;
+    height: 16px;
+}
+
+.modal-body .row.comment {
+    border-bottom: 1px;
 }
 
 /*

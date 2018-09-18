@@ -1,4 +1,4 @@
 # For Python 3.4
-FROM ninty
+FROM egfds
 COPY . /var/app/
 

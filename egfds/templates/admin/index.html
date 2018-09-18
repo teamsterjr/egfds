@@ -30,7 +30,7 @@
             </tr>
             {% endfor %}
             <tr id='newUser'>
-                <td colspan="2" class="collapse" id="exampleCollapse">
+                <td colspan="2" class="collapse" id="newUserCollapse">
                     <form id="newUserForm" data-action="{{ url_for('admin.add_user') }}">
                         <div class="form-group">
                             <label for="newUsername">Username</label>
@@ -42,9 +42,9 @@
                         </div>
                     </form>
                     <div class="modal-footer">
-                        <button type="button" id="submitNewUser" data-toggle="collapse" data-target="#exampleCollapse"
+                        <button type="button" id="submitNewUser" data-toggle="collapse" data-target="#newUserCollapse"
                             class="btn btn-primary">Save changes</button>
-                        <button type="button" id="clearNewUser" data-toggle="collapse" data-target="#exampleCollapse"
+                        <button type="button" id="clearNewUser" data-toggle="collapse" data-target="#newUserCollapse"
                             class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </td>
@@ -52,7 +52,7 @@
         </tbody>
     </table>
     <div class="row justify-content-end">
-        <a id="addUser" data-toggle="collapse" data-target="#exampleCollapse" class="btn btn-primary col4">
+        <a id="addUser" data-toggle="collapse" data-target="#newUserCollapse" class="btn btn-primary col4">
             <img src="/static/images/plus.svg" class="icon">
         </a>
     </div>

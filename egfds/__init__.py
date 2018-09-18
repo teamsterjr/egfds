@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from .json import DateJSONEncoder
 from . import db
 from . import main
 from . import games
@@ -10,6 +11,7 @@ from . import admin
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
+    app.json_encoder = DateJSONEncoder
 
     app.config.from_mapping(
         SECRET_KEY="dev",
@@ -28,9 +30,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-
     db.init_app(app)
     admin.init_app(app)
+    main.init_app(app)
 
     app.register_blueprint(main.bp)
     app.register_blueprint(games.bp)

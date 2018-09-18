@@ -183,10 +183,10 @@ def add_comment():
     if int(vote) < 0:
         down = 1
     date = request.form.get("date")
-    date = parse(date) if date else "{}".format(
-        datetime.now().strftime("%y/%m/%d %H:%M:%S"))
     if (query_db("select 1 from comment where user_id=%s and instance_id=%s", [userId, instanceId], True)):
         return jsonify(error="User has already commented on this game"), 409
+    date=parse(date, settings={'TO_TIMEZONE': 'UTC', 'TIMEZONE':'Europe/London', 'RETURN_AS_TIMEZONE_AWARE': True}) if date else "{}".format(
+        datetime.now().strftime("%y/%m/%d %H:%M:%S"))
     db = get_db()
     try:
         db.execute(
