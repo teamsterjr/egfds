@@ -11,7 +11,7 @@ services:
     ports:
       - 5000:8080
     environment:
-      - RDS_HOST=db
+      - RDS_HOSTNAME=db
       - RDS_PASSWORD=blah
       - FLASK_ENV=development
     volumes:

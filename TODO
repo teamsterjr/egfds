@@ -2,35 +2,44 @@ LAYOUT:
   ✔ Front page @done
   ✔ add nav / header @done
   ✔ admin nav @done
-  ☐ auto generate nav with wrapper
   ✔ /games/ @done
-  ☐ hide input on radio buttons
+  ☐ hide input on vote radio buttons
   ✔ add comment after add @done
-
+  ☐ use css for vote icons
 
 BUG:
   ☐ jquery / datatable not working in minified version
   ☐ bad transition on add user
   ☐ move from alert() to alert bootstrap component
-  ☐ move to oo js
   ☐ datetime now localtime
   ☐ format date on return
   ☐ onload datatable
+  ☐ comment should be text box
+  ☐ remove 'ninty'
+
 
 Feature:
+  ☐ show comments in modal / child cell @started(18-09-18 10:16)
   ☐ page title!
   ☐ favicon
+  ☐ add game from add comment
   ☐ add search box for games
-  ☐ show game info in modal / child cell / accordion?
-  ☐ show comments in modal / child cell
   ☐ add filter by genre nav
   ☐ add grouping by yay/meh/boo (rowgroup)
 
-  ☐ add game from comment
+  ☐ move to oo / module js
+
+  ☐ ssl
+  ☐ tests!
+  ☐ harden login - count failed / audit log
+  ☐ comment moderation
+  ☐ open login for users
+
   ☐ better validation
   ☐ proper svg sprite map
   ☐ asset versioning / versioning
   ☐ pagination
+  ☐ auto generate nav with wrapper
   ☐ marmite mode?
 
   Game Links:
@@ -38,7 +47,8 @@ Feature:
         id | gameid | link | site / channel | type (review / trailer)
     ☐ sites
         id | name | url
-    ☐  multi platforms
+    ☐ multi platforms
+    ☐ show game info in modal / child cell / accordion?
 
 Admin:
   Manage Games:
