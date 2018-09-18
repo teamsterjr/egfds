@@ -1,27 +1,19 @@
-LAYOUT:
-  ✔ Front page @done
-  ✔ add nav / header @done
-  ✔ admin nav @done
-  ✔ /games/ @done
-  ☐ hide input on vote radio buttons
-  ✔ add comment after add @done
-  ☐ use css for vote icons
-
 BUG:
   ☐ jquery / datatable not working in minified version
+  ☐ onload datatable flicker
   ☐ bad transition on add user
-  ☐ move from alert() to alert bootstrap component
-  ☐ datetime now localtime
-  ☐ format date on return
-  ☐ onload datatable
-  ☐ comment should be text box
-  ☐ remove 'ninty'
-
 
 Feature:
-  ☐ show comments in modal / child cell @started(18-09-18 10:16)
+  ☐ split comment and vote
+  ☐ comment should be text box
+  ☐ comment newlines / paras
+  ☐ escape comments
+  ☐ strip debug
+  ☐ move from alert() to alert bootstrap component
+
   ☐ page title!
   ☐ favicon
+
   ☐ add game from add comment
   ☐ add search box for games
   ☐ add filter by genre nav
@@ -32,7 +24,7 @@ Feature:
   ☐ ssl
   ☐ tests!
   ☐ harden login - count failed / audit log
-  ☐ comment moderation
+  ☐ commenting moderation
   ☐ open login for users
 
   ☐ better validation
@@ -42,13 +34,19 @@ Feature:
   ☐ auto generate nav with wrapper
   ☐ marmite mode?
 
+  multi platforms:
+    ☐ move nav to /games/switch/
+
   Game Links:
     ☐ reviews / trailer
         id | gameid | link | site / channel | type (review / trailer)
     ☐ sites
         id | name | url
-    ☐ multi platforms
     ☐ show game info in modal / child cell / accordion?
+
+LAYOUT:
+  ☐ use css / html for vote icons (&times; &plus; &minus;)
+  ☐ hide input on vote radio buttons
 
 Admin:
   Manage Games:
@@ -58,6 +56,16 @@ Admin:
 ☐ sqlalchemy?
 
 Archive:
+  ✔ show comments in modal / child cell @done @project(Feature)
+  ✔ rename all example css :) @done @project(Feature)
+  ✔ datetime not localtime @done @project(BUG)
+  ✔ format date on return @done @project(BUG)
+  ✔ rename 'ninty' @done @project(BUG)
+  ✔ Front page @done @project(LAYOUT)
+  ✔ add nav / header @done @project(LAYOUT)
+  ✔ admin nav @done @project(LAYOUT)
+  ✔ /games/ @done @project(LAYOUT)
+  ✔ add comment after add @done @project(LAYOUT)
   ✔ data model / games @done
   ✔ data model / genres @done
   ✔ db / users table @done

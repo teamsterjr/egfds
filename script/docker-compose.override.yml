@@ -1,8 +1,8 @@
 version: '3.1'
 
 services:
-  ninty:
-    image: ninty:sub
+  egfds:
+    image: egfds:sub
     build:
       context: ..
       dockerfile: script/Dockerfile.dev
@@ -15,7 +15,7 @@ services:
       - RDS_PASSWORD=blah
       - FLASK_ENV=development
     volumes:
-      - ../ninty:/var/app/ninty
+      - ../egfds:/var/app/egfds
     entrypoint:
       - bin/python
     command: ["application.py"]

@@ -18,6 +18,26 @@ def recommendations():
 def ajax_games():
     return jsonify(get_games())
 
+@bp.route('/<instanceId>/comments.json')
+def ajax_comments(instanceId):
+    comments = query_db(
+            """
+            SELECT      c.comment,
+                        u.username,
+                        c.date,
+                        c.up,
+                        c.down
+            FROM        comment c
+            LEFT JOIN   user u
+            ON          u.id = c.user_id
+            WHERE c.instance_id=%s
+            AND       c.comment != ''
+            """,
+            [int(instanceId)]
+    )
+    return jsonify(comments)
+
+
 def get_games():
     return query_db(
         """

@@ -1,18 +1,18 @@
 {
-  "name": "ninty",
+  "name": "egfds",
   "version": "1.0.0",
   "description": "",
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./build; gulp;",
-    "dist": "cd ../build;zip ../ninty.zip -r * .[^.]*",
+    "dist": "cd ../build;zip ../egfds.zip -r * .[^.]*",
     "predist": "npm run build"
 
   },
   "repository": {
     "type": "git",
-    "url": "file:///Users/aleknowl/files/ninty/repo/"
+    "url": "file:///Users/aleknowl/files/egfds/repo/"
   },
   "author": "",
   "license": "ISC",

@@ -14,7 +14,7 @@ build/
 *.egg-info/
 config.py
 
-ninty.*zip
+egfds.*zip
 
 node_modules
 **/docker-compose*prod*

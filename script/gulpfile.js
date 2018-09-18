@@ -3,8 +3,8 @@ var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 
-var jsDest = '../build/ninty/static/js/'
-var jsSrc = '../ninty/static/js/'
+var jsDest = '../build/egfds/static/js/'
+var jsSrc = '../egfds/static/js/'
 gulp.task('dump', function () {
   console.log(gulp.src([
     jsDest + 'jquery.js',
@@ -14,7 +14,7 @@ gulp.task('dump', function () {
 })
 // Concatenate JS Files
 gulp.task('scripts', function () {
-  return gulp.src('../ninty/static/js/*.js')
+  return gulp.src('../egfds/static/js/*.js')
     .pipe(concat('main.js'))
     .pipe(gulp.dest(jsDest))
     .pipe(rename('main.min.js'))

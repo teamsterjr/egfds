@@ -15,13 +15,13 @@
     </thead>
     <tbody>
         {%for game in games %}
-        <tr>
-            <th scope="row" data-toggle="modal" data-target="#exampleModalLong">{{ game.name }}</th>
+        <tr data-gameId="{{game.game_id }}" data-instanceId="{{game.instance_id}}" data-toggle="modal" data-target="#gameModal">
+            <th scope="row">{{ game.name }}</th>
             <td>{{ game.genre }}</td>
-            <td>{{ game.total }}
-            <td hidden>{{ game.num_votes if game.num_votes else '-' }}</td>
-            <td hidden>{{game.up if game.up else '-'}}</td>
-            <td hidden>{{game.down if game.down else '-'}}</td>
+            <td>{{ game.total }}</td>
+            <td hidden>{{ game.num_votes if game.num_votes else 0 }}</td>
+            <td hidden>{{game.up if game.up else 0}}</td>
+            <td hidden>{{game.down if game.down else 0}}</td>
             <td hidden>
                 {% if game.total > 0 %}
                 YAY
@@ -35,18 +35,24 @@
 </table>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="gameModal" tabindex="-1" role="dialog" aria-labelledby="gameModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <h5 class="modal-title" id="gameModalTitle">Modal title</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <div class="row justify-content-center">
+                    <ul class="list-inline">
+                        <li class="up-vote list-inline-item"></li>
+                        <li class="no-vote list-inline-item"></li>
+                        <li class="down-vote list-inline-item"></li>
+                    </ul>
+                </div>
+                <dl class="comments-table"></dl>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

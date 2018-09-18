@@ -8,7 +8,7 @@ git archive HEAD | tar -x -C build
 cd build
 rm -r script
 rm -rf data
-cp ../ninty/config.py ninty
+cp ../egfds/config.py egfds
 echo 'Dockerfile' > .dockerignore
 popd > /dev/null
 

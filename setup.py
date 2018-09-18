@@ -4,7 +4,7 @@ setup(
     name='Recommends',
     version='1.0',
     long_description=__doc__,
-    packages=['ninty'],
+    packages=['egfds'],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
