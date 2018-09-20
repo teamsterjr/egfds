@@ -35,7 +35,7 @@ Feature:
   ☐ marmite mode?
 
   multi platforms:
-    ☐ move nav to /games/switch/
+    ☐ add dropdown nav per platform - treat current as 'All'
 
   Game Links:
     ☐ reviews / trailer
