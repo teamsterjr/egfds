@@ -10,7 +10,9 @@ from flask.cli import with_appcontext
 mysql = MySQL()
 
 def get_db():
-    return mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("set time_zone='Europe/London'")
+    return cursor
 
 def commit_db():
     mysql.connection.commit()

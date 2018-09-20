@@ -1,32 +1,28 @@
+import os
+import collections
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
+    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify, send_from_directory
 )
 from werkzeug.exceptions import abort
-import collections
+from .utils import populate_nav
 
 bp = Blueprint('main', __name__)
 
+def init_app(app):
+    app.add_url_rule('/favicon.ico', endpoint='favicon')
+    app.context_processor(default_sections)
+
 @bp.route('/')
 def index():
-    # flash('blah')
     return redirect(url_for('games.recommendations'))
 
 def default_sections():
-    sections = collections.OrderedDict()
-    sections['/']={'name':"Home", 'url':'/', 'disabled':True}
-    sections['/games']={'name':"Game Recommendations", 'url':'/games'}
-    return sections
+    sections = [
+        {'name':"Home", 'disabled':True},
+        {'name':"Game Recommendations", 'url':'games/'}
+    ]
+    return populate_nav(links=sections)
 
-def render_with_nav(tmpl_name, this='/', sections=default_sections(), **kwargs):
-    if(sections.get(this)):
-        sections[this]["selected"]=True
-    return render_template(tmpl_name, sections=sections, **kwargs)
-
-def set_response_headers(response):
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = '0'
-    return response
-
-def init_app(app):
-    app.after_request(set_response_headers)
+def favicon():
+    return send_from_directory(os.path.join(bp.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')

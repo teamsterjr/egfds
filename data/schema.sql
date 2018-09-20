@@ -2,9 +2,9 @@
 -- Table structure for table `game`
 --
 
-DROP database `EGFDS`;
-CREATE DATABASE `EGFDS`;
-use EGFDS;
+DROP database IF EXISTS `EGFDS2`;
+CREATE DATABASE `EGFDS2`;
+use EGFDS2;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -93,6 +93,7 @@ CREATE TABLE `vote` (
   `vote` tinyint(2) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL,
   `instance_id` int(11) NOT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `vote_per_user` (`user_id`,`instance_id`),
   KEY `vote_ibfk_1` (`instance_id`),
@@ -111,7 +112,6 @@ CREATE TABLE `comment` (
   `vote_id` int(11) NOT NULL,
   `comment` text,
   `promoted` tinyint(1) NOT NULL DEFAULT '0',
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `vote_id` (`vote_id`),
   CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`vote_id`) REFERENCES `vote` (`id`)
