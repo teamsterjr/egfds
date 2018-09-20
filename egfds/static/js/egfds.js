@@ -1,16 +1,20 @@
+
 $(document).ready(function() {
+
+var games = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  prefetch: {
+    url: "/games/games.json",
+    cache: false
+  }
+});
+
   // game typeahead
   $(".typeahead#game")
     .typeahead(null, {
       display: "name",
-      source: new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        prefetch: {
-          url: "/games/games.json",
-          cache: false
-        }
-      }),
+      source: games,
       hint: false,
       highlight: true
     })
@@ -26,6 +30,7 @@ $(document).ready(function() {
       } else {
         // also show the genre drop down
         $("#instanceId").val("");
+        $('.typeahead#game').typeahead('val', '');
       }
       jQuery.removeData(this, "found");
     });
@@ -36,12 +41,12 @@ $(document).ready(function() {
       url: $("form#comment").data("action"),
       data: $("form#comment").serialize(),
       success: function(data) {
-        image =
+        content =
           data.vote > 0
-            ? "thumb-up.svg"
+            ? "&plus;"
             : data.vote == 0
-              ? "meh.svg"
-              : "thumb-down.svg";
+              ? "&minus;"
+              : "&times;";
 
         $("#newComment").before(
           '<tr><th scope="row">' +
@@ -49,13 +54,14 @@ $(document).ready(function() {
             "</th>" +
             "<td>" +
             data.comment +
-            '</td><td class="text-center"><img class="icon" src="/static/images/' +
-            image +
-            '"></td>' +
+            '</td><td class="text-center">' +
+            content +
+            '</td>' +
             "<td>" +
             data.date +
             "</td></tr>"
         );
+        $('.typeahead#game').typeahead('val', '');
       }
     }).fail(function(data) {
       alert(data.responseJSON.error);
@@ -71,7 +77,6 @@ $(document).ready(function() {
       url: $("form#newUserForm").data("action"),
       data: $("#newUserForm").serialize(),
       success: function(data) {
-        console.log(data);
         $("#newUser").before(
           '<tr><th scope="row"><a href="/adm/user/' +
             data.username +
@@ -84,17 +89,6 @@ $(document).ready(function() {
       alert(data.responseJSON.error);
     });
   });
-  /*
-  $("#deleteUser").click(function () {
-      $.post({
-          url: '{{url_for('admin.add_user')}}',
-          data: $('#newUserForm').serialize(),
-          success: function (data) {
-
-          }
-      })
-  })
-  */
 
   var table = $("#recommendation").DataTable({
     info: false,
@@ -107,29 +101,18 @@ $(document).ready(function() {
       }
     ],
     columns: [
-      {
-        name: "name"
-      },
-      {
-        name: "genre"
-      },
-      {
-        name: "score"
-      },
-      {
-        name: "votes"
-      },
-      {
-        name: "up"
-      },
-      {
-        name: "down"
-      },
-      {
-        name: "type"
-      }
+      { name: "name" },
+      { name: "genre" },
+      { name: "score" },
+      { name: "votes" },
+      { name: "up" },
+      { name: "down" },
+      { name: "type" }
     ],
-    searching: false
+    searching: false,
+    "initComplete": function(settings, json) {
+      $('#recommendation').removeAttr('hidden');
+    }
   });
 
   $("#gameModal").on("show.bs.modal", function(event) {
@@ -141,7 +124,6 @@ $(document).ready(function() {
       success: function(data) {
         comments_table.empty();
         data.forEach(function(element) {
-          console.log(element);
           $("<dl/>", {class:"row"})
             .append(
               $("<dd/>", {class:'col-sm-3'}).append(
@@ -149,7 +131,7 @@ $(document).ready(function() {
                 $("<p/>").html($("<small/>", { text: element.date }))
               ),
               $("<dd/>", {
-                // split and add ps
+                //TODO split and add p's
                 class:'col-sm-9',
                 html: element.comment.replace(/(?:\r\n|\r|\n){2,}/g, '<br>')
               })

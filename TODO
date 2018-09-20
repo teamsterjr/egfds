@@ -1,25 +1,26 @@
 BUG:
   ☐ jquery / datatable not working in minified version
-  ☐ onload datatable flicker
   ☐ bad transition on add user
 
-Feature:
-  ☐ split comment and vote
-  ☐ comment should be text box
+Todo:
+  ☐ move from alert() to alert bootstrap component
+  ☐ rearrange blueprint templates
+  ☐ only show modal if there's content
+  ☐ remove entry from typeahead after add comment
+  ☐ rename get_db get_cursor
   ☐ comment newlines / paras
   ☐ escape comments
-  ☐ strip debug
-  ☐ move from alert() to alert bootstrap component
+  ☐ fix admin db error handling
+  ☐ move to oo / module js
 
-  ☐ page title!
-  ☐ favicon
+  Admin:
+    ☐ add game from add comment
+    Manage Games:
+      ☐ manage genres
 
-  ☐ add game from add comment
   ☐ add search box for games
   ☐ add filter by genre nav
   ☐ add grouping by yay/meh/boo (rowgroup)
-
-  ☐ move to oo / module js
 
   ☐ ssl
   ☐ tests!
@@ -31,8 +32,9 @@ Feature:
   ☐ proper svg sprite map
   ☐ asset versioning / versioning
   ☐ pagination
-  ☐ auto generate nav with wrapper
-  ☐ marmite mode?
+  ☐ marmite mode icon
+
+  ☐ react?
 
   multi platforms:
     ☐ add dropdown nav per platform - treat current as 'All'
@@ -48,14 +50,18 @@ LAYOUT:
   ☐ use css / html for vote icons (&times; &plus; &minus;)
   ☐ hide input on vote radio buttons
 
-Admin:
-  Manage Games:
-    ☐ editable table
-    http://vitalets.github.io/x-editable/docs.html#newrecord
-    ☐ manage genres
 ☐ sqlalchemy?
 
 Archive:
+  ✔ check datetime on inserted and auto timed comments @done @project(BUG)
+  ✔ strip debug @done @project(BUG)
+  ✔ page title! @done @project(BUG)
+  ✔ favicon @done @project(BUG)
+  ✔ onload datatable flicker @done @project(BUG)
+  ✔ tidy up nav generator with wrapper @done @project(BUG)
+  ✔ add page title @done @project(BUG)
+  ✔ split comment and vote @done @project(BUG)
+  ✔ comment should be text box @done @project(BUG)
   ✔ show comments in modal / child cell @done @project(Feature)
   ✔ rename all example css :) @done @project(Feature)
   ✔ datetime not localtime @done @project(BUG)

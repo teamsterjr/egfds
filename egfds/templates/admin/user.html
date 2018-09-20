@@ -16,20 +16,20 @@
             <th class="text-center">Date</th>
         </thead>
         <tbody>
-            {% for comment in comments %}
+            {% for vote in votes %}
             <tr>
-                <th scope="row">{{ comment.game }}</th>
-                <td>{{ comment.comment }} </td>
+                <th scope="row">{{ vote.game }}</th>
+                <td>{{ vote.comment |default }} </td>
                 <td class="text-center">
-                    {% if comment.vote > 0 %}
-                    <img src="/static/images/thumb-up.svg" alt="YAY" class="icon">
-                    {% elif comment.vote == 0 %}
-                    <img src="/static/images/meh.svg" alt="MEH" class="icon">
+                    {% if vote.vote > 0 %}
+                    &plus;
+                    {% elif vote.vote == 0 %}
+                    &minus;
                     {% else %}
-                    <img src="/static/images/thumb-down.svg" alt="BOO" class="icon">
+                    &times;
                     {% endif %}
                 </td>
-                <td>{{ comment.date }} </td>
+                <td>{{ vote.date | strftime }} </td>
             </tr>
             {% endfor %}
             <tr id="newComment">
@@ -37,30 +37,20 @@
                     <input class="form-control typeahead" name="game" id="game" placeholder="Game">
                 </td>
                 <td>
-                    <input class="form-control" name="comment" id="comment" placeholder="comment">
+                    <textarea rows="5" class="form-control" name="comment" id="comment" placeholder="comment"></textarea>
                 </td>
                 <td id="gamevotes">
-                    <div class="form-check form-check-inline">
-                        <input class="hidden-input" type="radio" name="vote{{counter}}" id="inlineRadio{{counter}}1"
-                            value="+1">
-                        <label class="form-check-label" for="inlineRadio{{counter}}1">
-                            <img src="/static/images/thumb-up.svg" alt="YAY" class="icon">
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="hidden-input" type="radio" name="vote{{counter}}" id="inlineRadio{{counter}}2"
-                            value="0" value="0" value="0" checked>
-                        <label class="form-check-label" for="inlineRadio{{counter}}2">
-                            <img src="/static/images/meh.svg" alt="MEH" class="icon">
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="hidden-input" type="radio" name="vote{{counter}}" id="inlineRadio{{counter}}3"
-                            value="-1">
-                        <label class="form-check-label" for="inlineRadio{{counter}}3">
-                            <img src="/static/images/thumb-down.svg" alt="BOO" class="icon">
-                        </label>
-                    </div>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-secondary">
+                                  <input type="radio" name="vote" value="1" id="option1" autocomplete="off" checked>&plus;
+                                </label>
+                                <label class="btn btn-secondary active">
+                                  <input type="radio" name="vote" value="0" id="option2" autocomplete="off">&minus;
+                                </label>
+                                <label class="btn btn-secondary">
+                                  <input type="radio" name="vote" value="-1" id="option3" autocomplete="off">&times;
+                                </label>
+                              </div>
                 </td>
                 <td>
                     <input class="form-control" id="date" name="date" placeholder="Date">

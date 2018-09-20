@@ -5,11 +5,12 @@
 
 <head>
     {%- block head %}
-    <title>{% block title %}{{title|default}}{% endblock title %}</title>
+    <title>{% block title %}{{title|default()}}{% endblock title %}</title>
 
     {%- block metas %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {%- endblock metas %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
     {%- block styles %}
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +22,7 @@
 
 <body {% block body_attribs %}{% endblock body_attribs %}>
     {% block body -%}
-
+    {{ config.FLASK_ENV }}
     <div class="d-flex {% block headercolour %}bg-primary{% endblock %} w-100 h-100 p-3 mx-auto flex-column">
         <header class="mb-auto">
             <div class="inner">
@@ -29,7 +30,7 @@
                 <nav class="nav nav-masthead justify-content-center">
                     {% block nav %}
                     {% if sections %}
-                    {% for url, section in sections.items() %}
+                    {% for section in sections %}
                         {% if section.get('selected', False) %}
                             <a class="nav-link active" href="#">{{section.name}}</a>
                         {% else %}
