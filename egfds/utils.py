@@ -1,15 +1,26 @@
 import functools
+import re
 from datetime import datetime
 import dateutil
 from flask.json import JSONEncoder
 from flask import redirect, url_for, g, config, request, current_app
+from jinja2 import evalcontextfilter, Markup, escape
+
+_paragraph_re = re.compile(r'(?:\r\n|\r|\n){2,}')
 
 def init_app(app):
     app.json_encoder = DateJSONEncoder
-    app.add_template_filter(_jinja2_filter_datetime, 'strftime')
+    app.add_template_filter(_filter_datetime, 'strftime')
+    app.add_template_filter(_filter_nl2br, 'nl2br')
     app.after_request(set_response_headers)
 
-def normalizeDate(obj):
+def londonToUtc(obj):
+    to_zone = dateutil.tz.gettz('UTC')
+    from_zone = dateutil.tz.gettz('Europe/London')
+    obj=obj.replace(tzinfo=from_zone)
+    return obj.replace(tzinfo=from_zone).astimezone(to_zone)
+
+def utcToLondon(obj):
     from_zone = dateutil.tz.gettz('UTC')
     to_zone = dateutil.tz.gettz('Europe/London')
     obj=obj.replace(tzinfo=from_zone)
@@ -33,10 +44,9 @@ def login_required(view):
 
     return wrapped_view
 
-def _jinja2_filter_datetime(date, fmt=None):
-    native=normalizeDate(date)
-    format='%c'
-    return native.strftime(format)
+def _filter_datetime(date, fmt='%c'):
+    native=utcToLondon(date)
+    return native.strftime(fmt)
 
 def populate_nav(links=[], prefix='', **kwargs):
     current_path = request.path
@@ -53,13 +63,21 @@ def populate_nav(links=[], prefix='', **kwargs):
 
 class DateJSONEncoder(JSONEncoder):
 
-    def default(self, obj):
+    def default(self, obj): # pylint: disable=E0202
         try:
             if isinstance(obj, datetime):
-                return normalizeDate(obj).strftime('%c')
+                return _filter_datetime(obj)
             iterable = iter(obj)
         except TypeError:
             pass
         else:
             return list(iterable)
         return super().default(self, obj)
+
+@evalcontextfilter
+def _filter_nl2br(eval_ctx, value):
+    result = u'\n\n'.join(u'<p>%s</p>' % p.replace('\n', '<br>\n') \
+        for p in _paragraph_re.split(escape(value)))
+    if eval_ctx.autoescape:
+        result = Markup(result)
+    return result

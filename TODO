@@ -3,6 +3,7 @@ BUG:
   ☐ bad transition on add user
 
 Todo:
+  ☐ multi genre
   ☐ move from alert() to alert bootstrap component
   ☐ rearrange blueprint templates
   ☐ only show modal if there's content
@@ -10,6 +11,7 @@ Todo:
   ☐ rename get_db get_cursor
   ☐ comment newlines / paras
   ☐ escape comments
+  ☐ style comments
   ☐ fix admin db error handling
   ☐ move to oo / module js
 

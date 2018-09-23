@@ -8,6 +8,8 @@ var jsSrc = '../egfds/static/js/'
 gulp.task('dump', function () {
   console.log(gulp.src([
     jsDest + 'jquery.js',
+    jsDest + 'typeahead.js',
+    jsDest + 'datatables.js',
     jsDest + 'bootstrap.js',
     jsDest + '**/*.js'
   ]))
@@ -18,7 +20,7 @@ gulp.task('scripts', function () {
     .pipe(concat('main.js'))
     .pipe(gulp.dest(jsDest))
     .pipe(rename('main.min.js'))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest(jsDest));
 });
 // Default Task
