@@ -1,7 +1,8 @@
 import click
 import collections
+import dateutil
 
-from dateutil.parser import parse
+from dateparser import parse
 from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -22,7 +23,7 @@ from flask.cli import with_appcontext
 
 from .db import get_db, query_db, commit_db
 from .games import get_games, get_votes
-from .utils import login_required, populate_nav
+from .utils import login_required, populate_nav, londonToUtc
 
 bp = Blueprint("admin", __name__, url_prefix="/adm")
 
@@ -127,11 +128,6 @@ def index():
     return render_template("admin/index.html", users=users)
 
 
-@bp.route('/commenttest')
-def test():
-    item = query_db("select date from vote where id=29", one=True)
-    return render_template('t.html',item=item, jsitem=jsonify(item))
-
 @bp.route('/user/<username>')
 @login_required
 def show_user_profile(username):
@@ -139,7 +135,7 @@ def show_user_profile(username):
     user = query_db('select * from user where username=%s', [username], True)
     #comments = query_db(
         #'select g.name as game, c.comment, c.up - c.down as vote, c.date from comment c, game_instance gi, game g where c.user_id=%s and c.instance_id = gi.id and g.id=gi.game_id', [user.get("id")])
-    votes = get_votes()
+    votes = get_votes(user=user)
     return render_template("admin/user.html", user=user, this='/adm/user', votes=votes)
 
 
@@ -176,7 +172,8 @@ def add_comment():
     if not date:
         date = datetime.utcnow()
     else:
-        date = parse(date)
+        date = parse(date, settings={'TIMEZONE': 'Europe/London', 'RETURN_AS_TIMEZONE_AWARE':True})
+        date = londonToUtc(date)
 
     if (query_db("select 1 from vote where user_id=%s and instance_id=%s", [userId, instanceId], True)):
         return jsonify(error="User has already commented on this game"), 409
@@ -202,7 +199,6 @@ def add_comment():
 @login_required
 def todo():
     return send_file('../TODO', mimetype='text/plain')
-
 
 @bp.context_processor
 def admin_sections():

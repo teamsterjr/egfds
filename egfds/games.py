@@ -56,7 +56,13 @@ def get_votes(**kwargs):
         ON          g.id = gi.game_id
     """
 
-    return query_db(query)
+    args=[]
+    if kwargs['user']:
+        query = query + ' WHERE v.user_id = %s'
+        args.append(kwargs['user']['id'])
+
+
+    return query_db(query, args)
 
 def get_games():
     return query_db(

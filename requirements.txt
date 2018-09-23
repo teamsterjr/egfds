@@ -4,3 +4,4 @@ click==6.7
 python-dateutil==2.7.3
 flask-mysqldb==0.2.0
 simplejson==3.16.0
+dateparser==0.7.0

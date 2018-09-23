@@ -19,14 +19,14 @@
             {% for vote in votes %}
             <tr>
                 <th scope="row">{{ vote.game }}</th>
-                <td>{{ vote.comment |default }} </td>
+                <td>{{ vote.comment |default | nl2br }} </td>
                 <td class="text-center">
                     {% if vote.vote > 0 %}
                     &plus;
                     {% elif vote.vote == 0 %}
-                    &minus;
-                    {% else %}
                     &times;
+                    {% else %}
+                    &minus;
                     {% endif %}
                 </td>
                 <td>{{ vote.date | strftime }} </td>
@@ -45,10 +45,10 @@
                                   <input type="radio" name="vote" value="1" id="option1" autocomplete="off" checked>&plus;
                                 </label>
                                 <label class="btn btn-secondary active">
-                                  <input type="radio" name="vote" value="0" id="option2" autocomplete="off">&minus;
+                                  <input type="radio" name="vote" value="0" id="option2" autocomplete="off">&times;
                                 </label>
                                 <label class="btn btn-secondary">
-                                  <input type="radio" name="vote" value="-1" id="option3" autocomplete="off">&times;
+                                  <input type="radio" name="vote" value="-1" id="option3" autocomplete="off">&minus;
                                 </label>
                               </div>
                 </td>

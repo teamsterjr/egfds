@@ -45,8 +45,8 @@ var games = new Bloodhound({
           data.vote > 0
             ? "&plus;"
             : data.vote == 0
-              ? "&minus;"
-              : "&times;";
+              ? "&times;"
+              : "&minus;";
 
         $("#newComment").before(
           '<tr><th scope="row">' +
@@ -145,7 +145,7 @@ var games = new Bloodhound({
     var data = table.row(button).data();
     modal.find(".modal-title").text(data[0]);
     modal.find(".up-vote").html("&plus; " + data[4]);
-    modal.find(".no-vote").html("&minus; " + (data[3] - data[4] - data[5]));
-    modal.find(".down-vote").html("&times; " + data[5]);
+    modal.find(".no-vote").html("&times; " + (data[3] - data[4] - data[5]));
+    modal.find(".down-vote").html("&minus; " + data[5]);
   });
 });
