@@ -21,7 +21,7 @@ from flask import (
 )
 from flask.cli import with_appcontext
 
-from .db import get_db, query_db, commit_db
+from .db import get_cursor, query_db, commit_db
 from .games import get_games, get_votes
 from .utils import login_required, populate_nav, londonToUtc
 
@@ -88,7 +88,7 @@ def register(username, password, admin=False):
     Validates that the username is not already taken. Hashes the
     password for security.
     """
-    db = get_db()
+    db = get_cursor()
     error = None
 
     if not username:
@@ -124,19 +124,26 @@ def logout():
 @bp.route("/")
 @login_required
 def index():
-    users = query_db('select * from user')
-    return render_template("admin/index.html", users=users)
+    games = get_games()
+    users = query_db('select * from user order by username')
+    return render_template("admin/index.html", users=users, games=games)
 
 
 @bp.route('/user/<username>')
 @login_required
 def show_user_profile(username):
-    # show the user profile for that user
     user = query_db('select * from user where username=%s', [username], True)
-    #comments = query_db(
-        #'select g.name as game, c.comment, c.up - c.down as vote, c.date from comment c, game_instance gi, game g where c.user_id=%s and c.instance_id = gi.id and g.id=gi.game_id', [user.get("id")])
     votes = get_votes(user=user)
     return render_template("admin/user.html", user=user, this='/adm/user', votes=votes)
+
+
+@bp.route('/game/<instance_id>')
+@login_required
+def show_game(instance_id):
+    game = get_games(instance_id=instance_id, single=True, sort="name")
+    votes = get_votes(instance_id=instance_id, require_comment=True)
+    genres = query_db('select * from genre')
+    return render_template("admin/game.html", game=game, votes=votes, genres=genres)
 
 
 @bp.route('/user/add-user', methods=["POST"])
@@ -172,12 +179,13 @@ def add_comment():
     if not date:
         date = datetime.utcnow()
     else:
-        date = parse(date, settings={'TIMEZONE': 'Europe/London', 'RETURN_AS_TIMEZONE_AWARE':True})
+        date = parse(date, settings={
+                     'TIMEZONE': 'Europe/London', 'RETURN_AS_TIMEZONE_AWARE': True})
         date = londonToUtc(date)
 
     if (query_db("select 1 from vote where user_id=%s and instance_id=%s", [userId, instanceId], True)):
         return jsonify(error="User has already commented on this game"), 409
-    db = get_db()
+    db = get_cursor()
     try:
         db.execute(
             'INSERT INTO vote (instance_id, user_id, date, vote) VALUES (%s, %s, %s, %s)',
@@ -185,7 +193,7 @@ def add_comment():
         )
         if comment:
             db.execute('INSERT INTO comment (comment, vote_id) VALUES (%s,%s)',
-                (comment, db.lastrowid))
+                       (comment, db.lastrowid))
         commit_db()
     except Exception as e:
         current_app.logger.info(e)
@@ -200,14 +208,16 @@ def add_comment():
 def todo():
     return send_file('../TODO', mimetype='text/plain')
 
+
 @bp.context_processor
 def admin_sections():
-    sections=[
+    sections = [
         {'name': "Admin"}
     ]
 
     if(g.user):
         sections.append({'name': "Logout", 'url': 'logout'})
     else:
-        sections.append({'name': "Login", 'title':'EGFDS - Login', 'url': 'login'})
+        sections.append(
+            {'name': "Login", 'title': 'EGFDS - Login', 'url': 'login'})
     return populate_nav(prefix=bp.url_prefix, links=sections, title='EGFDS - Admin')
