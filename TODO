@@ -1,60 +1,58 @@
 BUG:
-  ☐ jquery / datatable not working in minified version
   ☐ bad transition on add user
 
 Todo:
   ☐ multi genre
   ☐ move from alert() to alert bootstrap component
-  ☐ rearrange blueprint templates
   ☐ only show modal if there's content
-  ☐ remove entry from typeahead after add comment
   ☐ rename get_db get_cursor
-  ☐ comment newlines / paras
-  ☐ escape comments
-  ☐ style comments
+  ☐ escape / style comments
   ☐ fix admin db error handling
-  ☐ move to oo / module js
 
   Admin:
     ☐ add game from add comment
     Manage Games:
       ☐ manage genres
+      ☐ reviews / trailer
+          id | gameid | link | site / channel | type (review / trailer)
+      ☐ sites
+          id | name | url
+    ☐ better validation
 
-  ☐ add search box for games
-  ☐ add filter by genre nav
-  ☐ add grouping by yay/meh/boo (rowgroup)
+  Assets:
+    ☐ minification not working
+    ☐ proper svg sprite map
+    ☐ asset versioning / versioning
 
-  ☐ ssl
-  ☐ tests!
-  ☐ harden login - count failed / audit log
-  ☐ commenting moderation
-  ☐ open login for users
+  Games Page:
+    ☐ add search box for games
+    ☐ add filter by genre nav
+    ☐ add grouping by yay/meh/boo (rowgroup)
+    ☐ pagination
+    ☐ marmite mode
+    ☐ show game info in modal
 
-  ☐ better validation
-  ☐ proper svg sprite map
-  ☐ asset versioning / versioning
-  ☐ pagination
-  ☐ marmite mode icon
+  Open to users:
+    ☐ ssl
+    ☐ tests!
+    ☐ harden login - count failed / audit log
+    ☐ commenting moderation
+    ☐ open login for users
 
-  ☐ react?
+  Refactor:
+    ☐ react?
+    ☐ sqlalchemy?
+    ☐ rearrange blueprint templates
+    ☐ move to oo / module js
 
   multi platforms:
     ☐ add dropdown nav per platform - treat current as 'All'
 
-  Game Links:
-    ☐ reviews / trailer
-        id | gameid | link | site / channel | type (review / trailer)
-    ☐ sites
-        id | name | url
-    ☐ show game info in modal / child cell / accordion?
-
-LAYOUT:
-  ☐ use css / html for vote icons (&times; &plus; &minus;)
-  ☐ hide input on vote radio buttons
-
-☐ sqlalchemy?
-
 Archive:
+  ✔ use css / html for vote icons (&times; &plus; &minus;) @done @project(Todo.Refactor.LAYOUT)
+  ✔ hide input on vote radio buttons @done @project(Todo.Refactor.LAYOUT)
+  ✔ remove entry from typeahead after add comment @done @project(Todo)
+  ✔ comment newlines / paras @done @project(Todo)
   ✔ check datetime on inserted and auto timed comments @done @project(BUG)
   ✔ strip debug @done @project(BUG)
   ✔ page title! @done @project(BUG)
