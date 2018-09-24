@@ -142,8 +142,8 @@ var games = new Bloodhound({
     });
 
     var modal = $(this);
-    var data = table.row(button).data();
-    modal.find(".modal-title").text(data[0]);
+    var data = table.row(button.parent().parent()).data();
+    modal.find(".modal-title").text(button.text());
     modal.find(".up-vote").html("&plus; " + data[4]);
     modal.find(".no-vote").html("&times; " + (data[3] - data[4] - data[5]));
     modal.find(".down-vote").html("&minus; " + data[5]);

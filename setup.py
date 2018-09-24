@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='Recommends',
-    version='1.0',
+    version='0.2.5',
     long_description=__doc__,
     packages=['egfds'],
     include_package_data=True,
