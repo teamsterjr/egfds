@@ -9,16 +9,15 @@ from flask.cli import with_appcontext
 
 mysql = MySQL()
 
-def get_db():
+def get_cursor():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("set time_zone='Europe/London'")
     return cursor
 
 def commit_db():
     mysql.connection.commit()
 
 def query_db(query, args=(), one=False):
-    cur = get_db()
+    cur = get_cursor()
     cur.execute(query, args)
     rv = cur.fetchall()
     cur.close()

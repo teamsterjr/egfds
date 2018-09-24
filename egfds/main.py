@@ -15,10 +15,23 @@ def init_app(app):
 
 def register_assets(app):
     assets = Environment(app)
-    js = Bundle('js/jquery.js', 'js/bootstrap.js', 'js/typeahead.js','js/datatables.js','js/egfds.js', filters='jsmin', output='gen/js/packed.js')
+    js = Bundle(
+        'js/external/jquery.js',
+        'js/external/bootstrap.js',
+        'js/external/typeahead.js',
+        'js/external/datatables.js',
+        'js/egfds.js',
+        filters='jsmin',
+        output='gen/js/packed.js'
+    )
     assets.register('js_all', js)
 
-    css = Bundle('css/bootstrap.min.css', 'css/datatables.min.css', 'css/style.css', output='gen/css/packed.css')
+    css = Bundle(
+        'css/external/bootstrap.min.css',
+        'css/external/datatables.min.css',
+        'css/style.css',
+        output='gen/css/packed.css'
+    )
     assets.register('css_all', css)
 
 @bp.route('/')

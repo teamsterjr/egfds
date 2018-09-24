@@ -126,10 +126,14 @@ var games = new Bloodhound({
         data.forEach(function(element) {
           $("<dl/>", {class:"row"})
             .append(
-              $("<dd/>", {class:'col-sm-3'}).append(
+              $("<dd/>", {class:'col-sm-2'}).append(
                 $("<p/>", { text: element.username, class: "text-primary" }),
                 $("<p/>").html($("<small/>", { text: element.date }))
               ),
+              $('<dd/>',{
+                class:'col-sm-1',
+                html: element.vote > 0 ? "&plus;" : element.vote ? "&minus;" : "&times;"
+              }),
               $("<dd/>", {
                 //TODO split and add p's
                 class:'col-sm-9',

@@ -1,36 +1,60 @@
 BUG:
   ☐ bad transition on add user
+  ✔ add vote direction on comment @done
+  ✔ confusing nav on admin - no link to site @done
 
 Todo:
-  ☐ multi genre
-  ☐ move from alert() to alert bootstrap component
-  ☐ only show modal if there's content
-  ☐ rename get_db get_cursor
-  ☐ escape / style comments
-  ☐ fix admin db error handling
+  RELEASE:
+    ☐ nest of build / run scripts - move all to setup.py
+    ☐ bump version automatically
+    ☐ add changelog
+    ☐ fix own manual release - use eb cli
+    ☐ use own docker image
+
+  ☐ pypika
+
+  Games Page:
+    ✘ only show modal if there's content @cancelled
+    ☐ popover with comments / votes
 
   Admin:
-    ☐ add game from add comment
     Manage Games:
+      ✔ add nav and games page @done
+      ☐ game page - show comments
       ☐ manage genres
       ☐ reviews / trailer
           id | gameid | link | site / channel | type (review / trailer)
       ☐ sites
           id | name | url
+    ☐ move from alert() to alert bootstrap component
+    ☐ fix admin db error handling
     ☐ better validation
+    ☐ add game from add comment
 
-  Assets:
-    ☐ minification not working
-    ☐ proper svg sprite map
-    ☐ asset versioning / versioning
+  ✔ rename get_db get_cursor @done
+
+  Refactor:
+    ☐ dry templates - macros
+    ☐ rearrange blueprint templates
+    ☐ move to oo / module js
+    ☐ minify html?
 
   Games Page:
+    ☐ escape / style comments
     ☐ add search box for games
     ☐ add filter by genre nav
     ☐ add grouping by yay/meh/boo (rowgroup)
     ☐ pagination
     ☐ marmite mode
     ☐ show game info in modal
+
+  ☐ multi genre
+
+  Assets:
+    ✔ minification not working @done
+    ☐ proper svg sprite map
+    ✔ asset versioning / versioning @done
+
 
   Open to users:
     ☐ ssl
@@ -43,8 +67,6 @@ Todo:
     ☐ react?
     ☐ sqlalchemy?
     ☐ pg?
-    ☐ rearrange blueprint templates
-    ☐ move to oo / module js
 
   multi platforms:
     ☐ add dropdown nav per platform - treat current as 'All'

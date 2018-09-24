@@ -1,0 +1,39 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="card border-dark mb-3">
+
+    <div class="card-header">
+        <div class="row justify-content-between">
+            <div class="col-4">
+                <h4>{{ game.name }}</h4>
+            </div>
+            <div class="col-4 text-right">
+                {{ game.genre }}
+            </div>
+        </div>
+    <div class="row">
+        {{ macros.scores(game) }}
+    </div>
+    </div>
+
+    <div class="card-body">
+        <div class="card-text">
+            <dl class="comments-table container">
+                {% for vote in votes %}
+                <dl class="row">
+                    <dd class="col-sm-2">
+                        <p class="text-primary">{{ vote.username }}</p>
+                        <p>{{ vote.date | strftime }}</p>
+                    </dd>
+                    <dd class="col-sm-1">
+                        {{ macros.vote(vote=vote.vote) }}
+                    </dd>
+                    <dd class="col-sm-9">{{ vote.comment }}</dd>
+                </dl>
+                {% endfor %}
+            </dl>
+        </div>
+    </div>
+</div>
+{% endblock content %}

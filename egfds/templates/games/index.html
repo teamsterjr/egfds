@@ -21,10 +21,10 @@
                 {{ game.name }}
             </a></th>
             <td>{{ game.genre }}</td>
-            <td>{{ game.total }}</td>
-            <td hidden>{{ game.num_votes if game.num_votes else 0 }}</td>
-            <td hidden>{{game.up if game.up else 0}}</td>
-            <td hidden>{{game.down if game.down else 0}}</td>
+            <td data-sort="{{game.total}}">{{ game.total }}</td>
+            <td hidden>{{ game.num_votes|default(0)}}</td>
+            <td hidden>{{game.up |default(0)}}</td>
+            <td hidden>{{game.down|default(0)}}</td>
             <td hidden>
                 {% if game.total > 0 %}
                 YAY
