@@ -42,6 +42,7 @@ Todo:
   Refactor:
     ☐ react?
     ☐ sqlalchemy?
+    ☐ pg?
     ☐ rearrange blueprint templates
     ☐ move to oo / module js
 

@@ -8,12 +8,16 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'Flask==1.0.2',
-        'Werkzeug==0.14.1',
-        'python-dateutil==2.7.3',
-        'flask-mysqldb==0.2.0',
-        'click==6.7'
-        'simplejson==3.16.0'
+'simplejson==3.16.0',
+'Flask==1.0.2',
+'Flask-Assets==0.12',
+'Werkzeug==0.14.1',
+'click==6.7',
+'flask-mysqldb==0.2.0',
+'python-dateutil==2.7.3',
+'dateparser==0.7.0'
+
+
     ]
 
 

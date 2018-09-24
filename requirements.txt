@@ -1,7 +1,9 @@
+simplejson==3.16.0
 Flask==1.0.2
+Flask-Assets==0.12
 Werkzeug==0.14.1
 click==6.7
-python-dateutil==2.7.3
 flask-mysqldb==0.2.0
-simplejson==3.16.0
+python-dateutil==2.7.3
 dateparser==0.7.0
+jsmin==2.2.2

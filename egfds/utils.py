@@ -12,7 +12,6 @@ def init_app(app):
     app.json_encoder = DateJSONEncoder
     app.add_template_filter(_filter_datetime, 'strftime')
     app.add_template_filter(_filter_nl2br, 'nl2br')
-    app.after_request(set_response_headers)
 
 def londonToUtc(obj):
     to_zone = dateutil.tz.gettz('UTC')
@@ -25,12 +24,6 @@ def utcToLondon(obj):
     to_zone = dateutil.tz.gettz('Europe/London')
     obj=obj.replace(tzinfo=from_zone)
     return obj.replace(tzinfo=from_zone).astimezone(to_zone)
-
-def set_response_headers(response):
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = '0'
-    return response
 
 def login_required(view):
     """View decorator that redirects anonymous users to the login page."""
