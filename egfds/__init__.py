@@ -23,8 +23,6 @@ def create_app(test_config=None):
         # load the test config if passed in
         app.config.from_mapping(test_config)
 
-    if app.config['DEBUG']:
-        app.config['ASSETS_DEBUG'] = True
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)

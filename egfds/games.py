@@ -16,7 +16,7 @@ def recommendations():
 
 @bp.route('/games.json')
 def ajax_games():
-    return jsonify(get_games())
+    return jsonify({'data':get_games()})
 
 
 @bp.route('/<instanceId>/comments.json')
