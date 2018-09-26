@@ -4,7 +4,7 @@
 <table class="table table-bordered table-hover table-striped dataTable" id="recommendation">
     <thead>
         <tr>
-            <th class="text-center sorting">Name</th>
+            <th scope="col" style="width: 50%;" class="text-center sorting">Name</th>
             <th class="text-center sorting">Genre</th>
             <th class="text-center sorting">Score</th>
             <th class="text-center" hidden>Number of votes</th>
@@ -13,28 +13,6 @@
             <th class="text-center" hidden>Type</th>
         </tr>
     </thead>
-    <tbody>
-        {%for game in games %}
-        <tr>
-            <th scope="row">
-            <a href="#" data-gameId="{{game.game_id }}" data-instanceId="{{game.instance_id}}" data-toggle="modal" data-target="#gameModal">
-                {{ game.name }}
-            </a></th>
-            <td>{{ game.genre }}</td>
-            <td data-sort="{{game.total}}">{{ game.total }}</td>
-            <td hidden>{{ game.num_votes|default(0)}}</td>
-            <td hidden>{{game.up |default(0)}}</td>
-            <td hidden>{{game.down|default(0)}}</td>
-            <td hidden>
-                {% if game.total > 0 %}
-                YAY
-                {% elif game.total %}
-                BOO
-                {% else %}
-                MEH
-                {% endif %}
-            </td>
-        </tr> {% endfor %} </tbody>
 </table>
 
 <!-- Modal -->

@@ -1,9 +1,21 @@
 BUG:
-  ☐ bad transition on add user
+  ✔ table resize on load @done
+  ✔ bad transition on add user @done
   ✔ add vote direction on comment @done
   ✔ confusing nav on admin - no link to site @done
+  ☐ remove item from typeahead in user admin after commenting
 
 Todo:
+  Games Page:
+    ✔ only show modal if there's content @done
+    ☐ popover with comments / votes
+
+  Refactor:
+    ☐ add neutral votes in calculations rather than everywhere
+    ☐ dry templates - macros
+    ☐ rearrange blueprint templates
+    ☐ move to oo / module js
+
   RELEASE:
     ☐ nest of build / run scripts - move all to setup.py
     ☐ bump version automatically
@@ -13,14 +25,10 @@ Todo:
 
   ☐ pypika
 
-  Games Page:
-    ✘ only show modal if there's content @cancelled
-    ☐ popover with comments / votes
-
   Admin:
     Manage Games:
       ✔ add nav and games page @done
-      ☐ game page - show comments
+      ✔ game page - show comments @done
       ☐ manage genres
       ☐ reviews / trailer
           id | gameid | link | site / channel | type (review / trailer)
@@ -34,13 +42,12 @@ Todo:
   ✔ rename get_db get_cursor @done
 
   Refactor:
-    ☐ dry templates - macros
-    ☐ rearrange blueprint templates
     ☐ move to oo / module js
     ☐ minify html?
 
   Games Page:
     ☐ escape / style comments
+	- duffking golf story - italics on ok
     ☐ add search box for games
     ☐ add filter by genre nav
     ☐ add grouping by yay/meh/boo (rowgroup)

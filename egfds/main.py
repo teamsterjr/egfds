@@ -11,15 +11,21 @@ bp = Blueprint('main', __name__)
 def init_app(app):
     app.add_url_rule('/favicon.ico', endpoint='favicon')
     app.context_processor(default_sections)
+    if app.config['DEBUG']:
+        app.after_request(bust_cache)
     register_assets(app)
 
 def register_assets(app):
+    if app.config['DEBUG']:
+        app.config['ASSETS_DEBUG'] = True
+
     assets = Environment(app)
     js = Bundle(
         'js/external/jquery.js',
         'js/external/bootstrap.js',
         'js/external/typeahead.js',
         'js/external/datatables.js',
+        'js/gametable.js',
         'js/egfds.js',
         filters='jsmin',
         output='gen/js/packed.js'
@@ -48,3 +54,9 @@ def default_sections():
 def favicon():
     return send_from_directory(os.path.join(bp.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+def bust_cache(response):
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
