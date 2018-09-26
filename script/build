@@ -8,8 +8,12 @@ git archive HEAD | tar -x -C build
 cd build
 rm -r script
 rm -rf data
-cp ../egfds/config.py egfds
+cp ../egfds/secret.py egfds
+
+# CHECK
 echo 'Dockerfile' > .dockerignore
+
+zip ../egfds.zip -r * .[^.]*
 popd > /dev/null
 
 echo "${basedir}"
