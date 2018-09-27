@@ -24,6 +24,7 @@ setup(
         'dev': [
             'pylint',
             'invoke',
+            'awsebcli',
             'bumpversion'
         ]
     }
