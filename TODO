@@ -8,22 +8,21 @@ BUG:
 Todo:
   Games Page:
     ✔ only show modal if there's content @done
-    ☐ popover with comments / votes
+    ✔ popover with comments / votes @done
+
+  RELEASE:
+    ☐ nest of build / run scripts - move all to setup.py
+    ☐ bump version automatically
+    ☐ add changelog
+    ☐ fix manual release - use eb cli
+    ☐ use own docker image
 
   Refactor:
     ☐ add neutral votes in calculations rather than everywhere
     ☐ dry templates - macros
     ☐ rearrange blueprint templates
     ☐ move to oo / module js
-
-  RELEASE:
-    ☐ nest of build / run scripts - move all to setup.py
-    ☐ bump version automatically
-    ☐ add changelog
-    ☐ fix own manual release - use eb cli
-    ☐ use own docker image
-
-  ☐ pypika
+    ☐ pypika
 
   Admin:
     Manage Games:
@@ -47,13 +46,13 @@ Todo:
 
   Games Page:
     ☐ escape / style comments
-	- duffking golf story - italics on ok
-    ☐ add search box for games
+        - duffking golf story - italics on ok
+    ☐ add search box for games (with typeahead)
     ☐ add filter by genre nav
-    ☐ add grouping by yay/meh/boo (rowgroup)
+    ✔ add grouping by yay/meh/boo (rowgroup) @done
     ☐ pagination
     ☐ marmite mode
-    ☐ show game info in modal
+    ✔ show game info in modal @done
 
   ☐ multi genre
 
