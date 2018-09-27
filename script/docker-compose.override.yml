@@ -2,10 +2,9 @@ version: '3.1'
 
 services:
   egfds:
-    image: egfds:sub
+    image: egfds:dev
     build:
       context: ..
-      dockerfile: script/Dockerfile.dev
     links:
       - db
     ports:
@@ -15,7 +14,7 @@ services:
       - RDS_PASSWORD=blah
       - FLASK_ENV=development
     volumes:
-      - ../egfds:/var/app/egfds
+      - ../egfds:/app/egfds
     entrypoint:
-      - bin/python
-    command: ["application.py"]
+      - python
+    command: ["egfds/application.py"]

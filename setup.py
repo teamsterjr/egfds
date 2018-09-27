@@ -1,9 +1,11 @@
 from setuptools import setup
 
+version='0.2.0'
+
 setup(
     name='EGFDS',
-    version='0.2.0',
     long_description=__doc__,
+    version=version,
     packages=['egfds'],
     include_package_data=True,
     zip_safe=False,
@@ -21,10 +23,8 @@ setup(
     extras_require={
         'dev': [
             'pylint',
-            'invoke'
+            'invoke',
+            'bumpversion'
         ]
     }
-
-
-
 )
