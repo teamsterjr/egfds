@@ -17,6 +17,15 @@ def clean(c, dist=False, docs=False, bytecode=False, extra=''):
     for pattern in patterns:
         c.run("rm -rf {}".format(pattern))
 
+@task
+def reqs(c):
+    c.run('pip freeze | grep -v "^-e" | xargs pip uninstall -y')
+    c.run('pip install -e .')
+    c.run('pip uninstall -y EGFDS')
+    c.run('pip freeze > requirements.txt')
+    c.run('pip install -e .[dev]')
+    c.run('rm -r EGFDS.egg-info')
+
 @task(pre=[clean])
 def build(c, docs=False):
     print('Building: {}'.format(version))

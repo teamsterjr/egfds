@@ -18,7 +18,8 @@ setup(
         'flask-mysqldb',
         'python-dateutil',
         'dateparser',
-        'jsmin'
+        'jsmin',
+        'psycopg2'
     ],
     extras_require={
         'dev': [
