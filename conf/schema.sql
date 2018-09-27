@@ -1,149 +1,505 @@
--- MySQL dump 10.13  Distrib 8.0.12, for osx10.12 (x86_64)
 --
--- Host: localhost    Database: EGFDS
--- ------------------------------------------------------
--- Server version	8.0.12
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `comment`
+-- PostgreSQL database dump
 --
 
-DROP TABLE IF EXISTS `comment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+-- Dumped from database version 10.5
+-- Dumped by pg_dump version 10.5
 
-CREATE TABLE `comment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `vote_id` int(11) NOT NULL,
-  `comment` text,
-  `promoted` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `vote_id` (`vote_id`),
-  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`vote_id`) REFERENCES `vote` (`id`)
-) ENGINE=InnoDB;
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: egfds; Type: SCHEMA; Schema: -; Owner: root
+--
+
+CREATE SCHEMA egfds;
+
+
+ALTER SCHEMA egfds OWNER TO root;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Table structure for table `game`
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
-DROP TABLE IF EXISTS `game`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
-CREATE TABLE `game` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
-  `genre_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `genre_id` (`genre_id`),
-  CONSTRAINT `game_ibfk_1` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`id`)
-) ENGINE=InnoDB;
 
+SET default_tablespace = '';
+
+SET default_with_oids = false;
 
 --
--- Table structure for table `game_instance`
+-- Name: comment; Type: TABLE; Schema: egfds; Owner: root
 --
 
-DROP TABLE IF EXISTS `game_instance`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+CREATE TABLE egfds.comment (
+    id bigint NOT NULL,
+    vote_id bigint NOT NULL,
+    comment text,
+    promoted boolean DEFAULT false NOT NULL
+);
 
-CREATE TABLE `game_instance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `game_id` int(11) NOT NULL,
-  `platform_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `game_id` (`game_id`,`platform_id`),
-  KEY `platform_id` (`platform_id`),
-  CONSTRAINT `game_instance_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`),
-  CONSTRAINT `game_instance_ibfk_2` FOREIGN KEY (`platform_id`) REFERENCES `platform` (`id`)
-) ENGINE=InnoDB;
 
+ALTER TABLE egfds.comment OWNER TO root;
 
 --
--- Table structure for table `genre`
+-- Name: comment_id_seq; Type: SEQUENCE; Schema: egfds; Owner: root
 --
 
-DROP TABLE IF EXISTS `genre`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+CREATE SEQUENCE egfds.comment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
-CREATE TABLE `genre` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+
+ALTER TABLE egfds.comment_id_seq OWNER TO root;
+
+--
+-- Name: comment_id_seq; Type: SEQUENCE OWNED BY; Schema: egfds; Owner: root
+--
+
+ALTER SEQUENCE egfds.comment_id_seq OWNED BY egfds.comment.id;
 
 
 --
--- Table structure for table `platform`
+-- Name: game; Type: TABLE; Schema: egfds; Owner: root
 --
 
-DROP TABLE IF EXISTS `platform`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+CREATE TABLE egfds.game (
+    id bigint NOT NULL,
+    name text NOT NULL,
+    genre_id bigint NOT NULL
+);
 
-CREATE TABLE `platform` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(40) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB;
+
+ALTER TABLE egfds.game OWNER TO root;
+
+--
+-- Name: game_id_seq; Type: SEQUENCE; Schema: egfds; Owner: root
+--
+
+CREATE SEQUENCE egfds.game_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE egfds.game_id_seq OWNER TO root;
+
+--
+-- Name: game_id_seq; Type: SEQUENCE OWNED BY; Schema: egfds; Owner: root
+--
+
+ALTER SEQUENCE egfds.game_id_seq OWNED BY egfds.game.id;
 
 
 --
--- Table structure for table `user`
+-- Name: game_instance; Type: TABLE; Schema: egfds; Owner: root
 --
 
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+CREATE TABLE egfds.game_instance (
+    id bigint NOT NULL,
+    game_id bigint NOT NULL,
+    platform_id bigint NOT NULL
+);
 
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) NOT NULL,
-  `admin` tinyint(1) NOT NULL DEFAULT '0',
-  `password` text,
-  `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB;
+
+ALTER TABLE egfds.game_instance OWNER TO root;
+
+--
+-- Name: game_instance_id_seq; Type: SEQUENCE; Schema: egfds; Owner: root
+--
+
+CREATE SEQUENCE egfds.game_instance_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE egfds.game_instance_id_seq OWNER TO root;
+
+--
+-- Name: game_instance_id_seq; Type: SEQUENCE OWNED BY; Schema: egfds; Owner: root
+--
+
+ALTER SEQUENCE egfds.game_instance_id_seq OWNED BY egfds.game_instance.id;
 
 
 --
--- Table structure for table `vote`
+-- Name: genre; Type: TABLE; Schema: egfds; Owner: root
 --
 
-DROP TABLE IF EXISTS `vote`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+CREATE TABLE egfds.genre (
+    id bigint NOT NULL,
+    name text NOT NULL
+);
 
-CREATE TABLE `vote` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `vote` tinyint(2) NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL,
-  `instance_id` int(11) NOT NULL,
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `vote_per_user` (`user_id`,`instance_id`),
-  KEY `vote_ibfk_1` (`instance_id`),
-  KEY `instance_id` (`instance_id`),
-  CONSTRAINT `vote_ibfk_1` FOREIGN KEY (`instance_id`) REFERENCES `game_instance` (`id`),
-  CONSTRAINT `vote_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB;
 
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+ALTER TABLE egfds.genre OWNER TO root;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+--
+-- Name: genre_id_seq; Type: SEQUENCE; Schema: egfds; Owner: root
+--
+
+CREATE SEQUENCE egfds.genre_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE egfds.genre_id_seq OWNER TO root;
+
+--
+-- Name: genre_id_seq; Type: SEQUENCE OWNED BY; Schema: egfds; Owner: root
+--
+
+ALTER SEQUENCE egfds.genre_id_seq OWNED BY egfds.genre.id;
+
+
+--
+-- Name: platform; Type: TABLE; Schema: egfds; Owner: root
+--
+
+CREATE TABLE egfds.platform (
+    id bigint NOT NULL,
+    name character varying(40) NOT NULL
+);
+
+
+ALTER TABLE egfds.platform OWNER TO root;
+
+--
+-- Name: platform_id_seq; Type: SEQUENCE; Schema: egfds; Owner: root
+--
+
+CREATE SEQUENCE egfds.platform_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE egfds.platform_id_seq OWNER TO root;
+
+--
+-- Name: platform_id_seq; Type: SEQUENCE OWNED BY; Schema: egfds; Owner: root
+--
+
+ALTER SEQUENCE egfds.platform_id_seq OWNED BY egfds.platform.id;
+
+
+--
+-- Name: user; Type: TABLE; Schema: egfds; Owner: root
+--
+
+CREATE TABLE egfds."user" (
+    id bigint NOT NULL,
+    username character varying(30) NOT NULL,
+    admin boolean DEFAULT false NOT NULL,
+    password text,
+    deleted boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE egfds."user" OWNER TO root;
+
+--
+-- Name: user_id_seq; Type: SEQUENCE; Schema: egfds; Owner: root
+--
+
+CREATE SEQUENCE egfds.user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE egfds.user_id_seq OWNER TO root;
+
+--
+-- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: egfds; Owner: root
+--
+
+ALTER SEQUENCE egfds.user_id_seq OWNED BY egfds."user".id;
+
+
+--
+-- Name: vote; Type: TABLE; Schema: egfds; Owner: root
+--
+
+CREATE TABLE egfds.vote (
+    id bigint NOT NULL,
+    vote smallint DEFAULT '0'::smallint NOT NULL,
+    user_id bigint NOT NULL,
+    instance_id bigint NOT NULL,
+    date timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE egfds.vote OWNER TO root;
+
+--
+-- Name: vote_id_seq; Type: SEQUENCE; Schema: egfds; Owner: root
+--
+
+CREATE SEQUENCE egfds.vote_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE egfds.vote_id_seq OWNER TO root;
+
+--
+-- Name: vote_id_seq; Type: SEQUENCE OWNED BY; Schema: egfds; Owner: root
+--
+
+ALTER SEQUENCE egfds.vote_id_seq OWNED BY egfds.vote.id;
+
+
+--
+-- Name: comment id; Type: DEFAULT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.comment ALTER COLUMN id SET DEFAULT nextval('egfds.comment_id_seq'::regclass);
+
+
+--
+-- Name: game id; Type: DEFAULT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game ALTER COLUMN id SET DEFAULT nextval('egfds.game_id_seq'::regclass);
+
+
+--
+-- Name: game_instance id; Type: DEFAULT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game_instance ALTER COLUMN id SET DEFAULT nextval('egfds.game_instance_id_seq'::regclass);
+
+
+--
+-- Name: genre id; Type: DEFAULT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.genre ALTER COLUMN id SET DEFAULT nextval('egfds.genre_id_seq'::regclass);
+
+
+--
+-- Name: platform id; Type: DEFAULT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.platform ALTER COLUMN id SET DEFAULT nextval('egfds.platform_id_seq'::regclass);
+
+
+--
+-- Name: user id; Type: DEFAULT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds."user" ALTER COLUMN id SET DEFAULT nextval('egfds.user_id_seq'::regclass);
+
+
+--
+-- Name: vote id; Type: DEFAULT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.vote ALTER COLUMN id SET DEFAULT nextval('egfds.vote_id_seq'::regclass);
+
+
+--
+-- Name: comment idx_16507_primary; Type: CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.comment
+    ADD CONSTRAINT idx_16507_primary PRIMARY KEY (id);
+
+
+--
+-- Name: game idx_16517_primary; Type: CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game
+    ADD CONSTRAINT idx_16517_primary PRIMARY KEY (id);
+
+
+--
+-- Name: game_instance idx_16526_primary; Type: CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game_instance
+    ADD CONSTRAINT idx_16526_primary PRIMARY KEY (id);
+
+
+--
+-- Name: genre idx_16532_primary; Type: CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.genre
+    ADD CONSTRAINT idx_16532_primary PRIMARY KEY (id);
+
+
+--
+-- Name: platform idx_16541_primary; Type: CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.platform
+    ADD CONSTRAINT idx_16541_primary PRIMARY KEY (id);
+
+
+--
+-- Name: user idx_16547_primary; Type: CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds."user"
+    ADD CONSTRAINT idx_16547_primary PRIMARY KEY (id);
+
+
+--
+-- Name: vote idx_16558_primary; Type: CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.vote
+    ADD CONSTRAINT idx_16558_primary PRIMARY KEY (id);
+
+
+--
+-- Name: idx_16507_vote_id; Type: INDEX; Schema: egfds; Owner: root
+--
+
+CREATE INDEX idx_16507_vote_id ON egfds.comment USING btree (vote_id);
+
+
+--
+-- Name: idx_16517_genre_id; Type: INDEX; Schema: egfds; Owner: root
+--
+
+CREATE INDEX idx_16517_genre_id ON egfds.game USING btree (genre_id);
+
+
+--
+-- Name: idx_16526_game_id; Type: INDEX; Schema: egfds; Owner: root
+--
+
+CREATE UNIQUE INDEX idx_16526_game_id ON egfds.game_instance USING btree (game_id, platform_id);
+
+
+--
+-- Name: idx_16526_platform_id; Type: INDEX; Schema: egfds; Owner: root
+--
+
+CREATE INDEX idx_16526_platform_id ON egfds.game_instance USING btree (platform_id);
+
+
+--
+-- Name: idx_16541_name; Type: INDEX; Schema: egfds; Owner: root
+--
+
+CREATE UNIQUE INDEX idx_16541_name ON egfds.platform USING btree (name);
+
+
+--
+-- Name: idx_16547_username; Type: INDEX; Schema: egfds; Owner: root
+--
+
+CREATE UNIQUE INDEX idx_16547_username ON egfds."user" USING btree (username);
+
+
+--
+-- Name: idx_16558_instance_id; Type: INDEX; Schema: egfds; Owner: root
+--
+
+CREATE INDEX idx_16558_instance_id ON egfds.vote USING btree (instance_id);
+
+
+--
+-- Name: idx_16558_vote_ibfk_1; Type: INDEX; Schema: egfds; Owner: root
+--
+
+CREATE INDEX idx_16558_vote_ibfk_1 ON egfds.vote USING btree (instance_id);
+
+
+--
+-- Name: idx_16558_vote_per_user; Type: INDEX; Schema: egfds; Owner: root
+--
+
+CREATE UNIQUE INDEX idx_16558_vote_per_user ON egfds.vote USING btree (user_id, instance_id);
+
+
+--
+-- Name: comment comment_ibfk_1; Type: FK CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.comment
+    ADD CONSTRAINT comment_ibfk_1 FOREIGN KEY (vote_id) REFERENCES egfds.vote(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: game game_ibfk_1; Type: FK CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game
+    ADD CONSTRAINT game_ibfk_1 FOREIGN KEY (genre_id) REFERENCES egfds.genre(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: game_instance game_instance_ibfk_1; Type: FK CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game_instance
+    ADD CONSTRAINT game_instance_ibfk_1 FOREIGN KEY (game_id) REFERENCES egfds.game(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: game_instance game_instance_ibfk_2; Type: FK CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game_instance
+    ADD CONSTRAINT game_instance_ibfk_2 FOREIGN KEY (platform_id) REFERENCES egfds.platform(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: vote vote_ibfk_1; Type: FK CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.vote
+    ADD CONSTRAINT vote_ibfk_1 FOREIGN KEY (instance_id) REFERENCES egfds.game_instance(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: vote vote_ibfk_2; Type: FK CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.vote
+    ADD CONSTRAINT vote_ibfk_2 FOREIGN KEY (user_id) REFERENCES egfds."user"(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- PostgreSQL database dump complete
+--
 

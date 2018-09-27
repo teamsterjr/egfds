@@ -42,19 +42,19 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = (
-            query_db("SELECT * FROM user WHERE id = %s", [user_id], True)
+            query_db("SELECT * FROM user_account WHERE id = %s", [user_id], True)
         )
 
 
 @bp.route("/login", methods=("GET", "POST"))
 def login():
-    """Log in a registered user by adding the user id to the session."""
+    """Log in a registered user_account by adding the user id to the session."""
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
         error = None
         user = query_db(
-            "SELECT * FROM user WHERE username = %s and password is not null and deleted = 0", [username], True)
+            "SELECT * FROM user_account WHERE username = %s and password is not null and deleted = false", [username], True)
 
         if user is None:
             error = "Incorrect username."
@@ -96,7 +96,7 @@ def register(username, password, admin=False):
     elif not password and admin:
         error = {"error": 'Password is required for admin.', "code": 400}
     elif query_db(
-            'SELECT id FROM user WHERE username = %s', [username], True) is not None:
+            'SELECT id FROM user_account WHERE username = %s', [username], True) is not None:
         error = {"error": 'User {0} is already registered.'.format(
             username), "code": 409}
 
@@ -107,7 +107,7 @@ def register(username, password, admin=False):
         # the name is available, store it in the database and go to
         # the login page
         db.execute(
-            'INSERT INTO user (username, password, admin) VALUES (%s, %s, %s)',
+            'INSERT INTO user_account (username, password, admin) VALUES (%s, %s, %s)',
             (username, password, admin)
         )
         commit_db()
@@ -125,14 +125,14 @@ def logout():
 @login_required
 def index():
     games = get_games()
-    users = query_db('select * from user order by username')
+    users = query_db('select * from user_account order by username')
     return render_template("admin/index.html", users=users, games=games)
 
 
 @bp.route('/user/<username>')
 @login_required
 def show_user_profile(username):
-    user = query_db('select * from user where username=%s', [username], True)
+    user = query_db('select * from user_account where username=%s', [username], True)
     votes = get_votes(user=user)
     return render_template("admin/user.html", user=user, this='/adm/user', votes=votes)
 
@@ -150,7 +150,7 @@ def show_game(instance_id):
 @login_required
 def add_user():
     username = request.form.get("newUsername")
-    admin = request.form.get("newAdmin", 0)
+    admin = request.form.get("newAdmin", False)
     returnVal = register(
         username,
         request.form.get("password"),
@@ -219,5 +219,5 @@ def admin_sections():
         sections.append({'name': "Logout", 'url': 'logout'})
     else:
         sections.append(
-            {'name': "Login", 'title': 'EGFDS - Login', 'url': 'login'})
-    return populate_nav(prefix=bp.url_prefix, links=sections, title='EGFDS - Admin')
+            {'name': "Login", 'title': 'EGDS - Login', 'url': 'login'})
+    return populate_nav(prefix=bp.url_prefix, links=sections, title='EGDS - Admin')

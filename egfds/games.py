@@ -29,7 +29,7 @@ def ajax_comments(instanceId):
             FROM        vote v
             LEFT JOIN   comment c
             ON          v.id=c.vote_id
-            LEFT JOIN   user u
+            LEFT JOIN   user_account u
             ON          u.id = v.user_id
             WHERE
                         v.instance_id=%s
@@ -51,7 +51,7 @@ def get_votes(**kwargs):
         FROM        vote v
         LEFT JOIN   comment c
         ON          c.vote_id = v.id
-        LEFT JOIN   user u
+        LEFT JOIN   user_account u
         ON          u.id = v.user_id
         LEFT JOIN   game_instance gi
         ON          v.instance_id = gi.id
@@ -70,7 +70,7 @@ def get_votes(**kwargs):
         args.append(kwargs['instance_id'])
 
     if kwargs.get('require_comment'):
-        conditions.append('c.comment != ""')
+        conditions.append('c.comment is not null')
 
     if conditions:
         query = " WHERE ".join([query, " AND ".join(conditions)])
@@ -82,9 +82,10 @@ def get_games(single=False,**kwargs):
     SELECT  g.id                    as game_id,
         gi.id                           as instance_id,
         g.name                          as name,
-        COALESCE(SUM(v.vote=1),0)       as up,
-        COALESCE(SUM(v.vote=-1),0)      as down,
-        COALESCE(SUM(v.vote),0)         as total,
+        COALESCE(SUM( CASE WHEN v.vote=1 THEN 1 END),0)  as up,
+        COALESCE(SUM( CASE WHEN v.vote=-1 THEN 1 END),0)  as down,
+        COALESCE(SUM( CASE WHEN v.vote=0 THEN 1 END),0)  as netral,
+        COALESCE(SUM(v.vote),0)                     as total,
         COUNT(v.id)                     as num_votes,
         COUNT(c.id)                     as num_comments,
         ge.name                         as genre
@@ -105,7 +106,7 @@ def get_games(single=False,**kwargs):
         query = " WHERE ".join([query, " AND ".join(conditions)])
 
     query = "".join([query, """
-        GROUP BY        gi.id, g.id
+        GROUP BY        gi.id, g.id, ge.name
         ORDER BY        total desc, num_votes desc
         """])
 

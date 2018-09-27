@@ -1,20 +1,13 @@
-from flask_mysqldb import MySQL
-import MySQLdb
+from .postgres import Db
 
-import os
-
-import click
-from flask import current_app, g
-from flask.cli import with_appcontext
-
-mysql = MySQL()
+db = Db()
 
 def get_cursor():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = db.connection.cursor()
     return cursor
 
 def commit_db():
-    mysql.connection.commit()
+    db.connection.commit()
 
 def query_db(query, args=(), one=False):
     cur = get_cursor()
@@ -23,13 +16,5 @@ def query_db(query, args=(), one=False):
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
-
-def close_db(e=None):
-    db = g.pop('db', None)
-
-    if db is not None:
-        db.close()
-
-
 def init_app(app):
-    mysql.init_app(app)
+    db.init_app(app)

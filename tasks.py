@@ -51,4 +51,5 @@ def build(c, docs=False):
     )
     c.run('Docker build -t egfds:{} .'.format( version))
     c.run('Docker tag egfds:{} egfds:latest'.format(version))
+    c.run('Docker tag egfds:latest egfds:dev')
     c.run('zip ../egfds-{}.zip -r * .[^.]*'.format(version))
