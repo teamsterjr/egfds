@@ -1,5 +1,10 @@
 # For Python 3.4
-FROM amazon/aws-eb-python:3.4.2-onbuild-3.5.1
-ENV FLASK_APP=egfds
-EXPOSE 8080
+FROM tiangolo/uwsgi-nginx-flask:python3.7
 
+COPY requirements.txt /app
+RUN pip install -r /app/requirements.txt;rm /app/*
+COPY uwsgi.ini /app
+COPY egfds /app/egfds
+COPY TODO /app
+ENV FLASK_APP=egfds
+RUN flask assets build
