@@ -1,16 +1,22 @@
 BUG:
+  ✔ user table seems to clash @done
   ☐ remove item from typeahead in user admin after commenting
+  ✔ not getting numbers back @done
+  ☐ build stack docker weirdness...
 
 Todo:
   DEPLOYMENT:
-    ☐ move db to new one
+    ☐ move db to new one & clean up old envs
 
   RELEASE:
     ☐ add changelog
     ☐ fix manual release - use eb cli
 
   Refactor:
-    ☐ add neutral votes in calculations rather than everywhere
+    ☐ logo
+    ☐ add neutral votes in return rather than calulating everywhere @started(18-10-01 09:24)
+    ☐ add hard caching for json
+    ☐ use json from pg
     ☐ dry templates - macros
     ☐ rearrange blueprint templates
     ☐ move to oo / module js
@@ -47,6 +53,7 @@ Todo:
 
   Open to users:
     ☐ ssl
+      ☐ lets encrypt
     ☐ tests!
     ☐ harden login - count failed / audit log
     ☐ commenting moderation
@@ -55,7 +62,7 @@ Todo:
   Refactor:
     ☐ react?
     ☐ sqlalchemy?
-    ☐ pg?
+    ✔ pg? @done
 
   multi platforms:
     ☐ add dropdown nav per platform - treat current as 'All'

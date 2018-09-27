@@ -47,7 +47,6 @@ $(document).ready(function() {
               })
             )
 
-            console.log(button.html())
             return (
               '<button type="button" data-trigger="focus" class="btn btn-link" data-toggle="popover" data-html="true" data-placement="bottom" data-content="' +
               votes +

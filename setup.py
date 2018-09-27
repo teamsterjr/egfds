@@ -15,11 +15,10 @@ setup(
         'Flask-Assets',
         'Werkzeug',
         'click',
-        'flask-mysqldb',
         'python-dateutil',
         'dateparser',
         'jsmin',
-        'psycopg2'
+        'psycopg2-binary'
     ],
     extras_require={
         'dev': [

@@ -5,8 +5,8 @@ services:
     image: egfds:dev
     build:
       context: ..
-    links:
-      - db
+    external_links:
+      - egfds-postgres:db
     ports:
       - 5000:8080
     environment:
@@ -18,3 +18,8 @@ services:
     entrypoint:
       - python
     command: ["egfds/application.py"]
+
+networks:
+  default:
+    external:
+      name: pgsql
