@@ -1,5 +1,6 @@
 FROM tiangolo/uwsgi-nginx-flask:python3.7
 ENV FLASK_APP=egfds
+ENV STATIC_PATH=/app/egfds/static
 EXPOSE 80
 COPY requirements.txt /app
 
