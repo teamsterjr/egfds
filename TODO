@@ -1,21 +1,13 @@
 BUG:
-  ✔ table resize on load @done
-  ✔ bad transition on add user @done
-  ✔ add vote direction on comment @done
-  ✔ confusing nav on admin - no link to site @done
   ☐ remove item from typeahead in user admin after commenting
 
 Todo:
-  Games Page:
-    ✔ only show modal if there's content @done
-    ✔ popover with comments / votes @done
+  DEPLOYMENT:
+    ☐ move db to new one
 
   RELEASE:
-    ☐ nest of build / run scripts - move all to setup.py
-    ☐ bump version automatically
     ☐ add changelog
     ☐ fix manual release - use eb cli
-    ☐ use own docker image
 
   Refactor:
     ☐ add neutral votes in calculations rather than everywhere
@@ -26,8 +18,6 @@ Todo:
 
   Admin:
     Manage Games:
-      ✔ add nav and games page @done
-      ✔ game page - show comments @done
       ☐ manage genres
       ☐ reviews / trailer
           id | gameid | link | site / channel | type (review / trailer)
@@ -38,8 +28,6 @@ Todo:
     ☐ better validation
     ☐ add game from add comment
 
-  ✔ rename get_db get_cursor @done
-
   Refactor:
     ☐ move to oo / module js
     ☐ minify html?
@@ -49,18 +37,13 @@ Todo:
         - duffking golf story - italics on ok
     ☐ add search box for games (with typeahead)
     ☐ add filter by genre nav
-    ✔ add grouping by yay/meh/boo (rowgroup) @done
     ☐ pagination
     ☐ marmite mode
-    ✔ show game info in modal @done
 
   ☐ multi genre
 
   Assets:
-    ✔ minification not working @done
     ☐ proper svg sprite map
-    ✔ asset versioning / versioning @done
-
 
   Open to users:
     ☐ ssl
@@ -78,6 +61,22 @@ Todo:
     ☐ add dropdown nav per platform - treat current as 'All'
 
 Archive:
+  ✔ table resize on load @done @project(BUG)
+  ✔ bad transition on add user @done @project(BUG)
+  ✔ add vote direction on comment @done @project(BUG)
+  ✔ confusing nav on admin - no link to site @done @project(BUG)
+  ✔ only show modal if there's content @done @project(Todo.Games Page)
+  ✔ popover with comments / votes @done @project(Todo.Games Page)
+  ✔ nest of build / run scripts - move all to setup.py @done @project(Todo.RELEASE)
+  ✔ bump version automatically @done @project(Todo.RELEASE)
+  ✔ use own docker image @done @project(Todo.RELEASE)
+  ✔ add nav and games page @done @project(Todo.Admin.Manage Games)
+  ✔ game page - show comments @done @project(Todo.Admin.Manage Games)
+  ✔ rename get_db get_cursor @done @project(Todo)
+  ✔ add grouping by yay/meh/boo (rowgroup) @done @project(Todo.Games Page)
+  ✔ show game info in modal @done @project(Todo.Games Page)
+  ✔ minification not working @done @project(Todo.Assets)
+  ✔ asset versioning / versioning @done @project(Todo.Assets)
   ✔ use css / html for vote icons (&times; &plus; &minus;) @done @project(Todo.Refactor.LAYOUT)
   ✔ hide input on vote radio buttons @done @project(Todo.Refactor.LAYOUT)
   ✔ remove entry from typeahead after add comment @done @project(Todo)
