@@ -2,9 +2,9 @@
 FROM tiangolo/uwsgi-nginx-flask:python3.7
 
 COPY requirements.txt /app
-RUN pip install -r /app/requirements.txt;rm /app/*
-COPY uwsgi.ini /app
-COPY egfds /app/egfds
-COPY TODO /app
+RUN pip install -r requirements.txt
+COPY conf/uwsgi.ini /app
 ENV FLASK_APP=egfds
-RUN flask assets build
+COPY TODO /app
+COPY egfds /app/egfds
+RUN flask assets build;rm -r instance requirements.txt prestart.sh main.py

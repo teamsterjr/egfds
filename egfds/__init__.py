@@ -7,6 +7,7 @@ from . import games
 from . import admin
 from . import utils
 
+__version__='2.0.0'
 
 def create_app(test_config=None):
     # create and configure the app
