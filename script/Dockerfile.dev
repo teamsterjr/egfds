@@ -1,4 +1,0 @@
-# For Python 3.4
-FROM egfds
-COPY . /var/app/
-
