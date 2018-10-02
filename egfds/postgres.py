@@ -34,7 +34,9 @@ class Db(object):
             kwargs['password'] = current_app.config['DB_PASSWORD']
 
         if current_app.config['DB_DB']:
-            kwargs['database'] = current_app.config['DB_DB']
+            schema = current_app.config['DB_DB']
+            kwargs['database'] = schema
+            kwargs['options']=f'-c search_path={schema}'
 
         if current_app.config['DB_PORT']:
             kwargs['port'] = current_app.config['DB_PORT']
@@ -45,6 +47,7 @@ class Db(object):
         if current_app.config['DB_CONNECT_TIMEOUT']:
             kwargs['connect_timeout'] = \
                 current_app.config['DB_CONNECT_TIMEOUT']
+
 
         kwargs['cursor_factory']=RealDictCursor
         # if current_app.config['DB_CURSORCLASS']:

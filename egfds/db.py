@@ -4,6 +4,7 @@ db = Db()
 
 def get_cursor():
     cursor = db.connection.cursor()
+
     return cursor
 
 def commit_db():
