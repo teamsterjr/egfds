@@ -1,6 +1,7 @@
 import click
 import collections
 import dateutil
+import psycopg2
 
 from dateparser import parse
 from datetime import datetime
@@ -185,19 +186,21 @@ def add_comment():
 
     if (query_db("select 1 from vote where user_id=%s and instance_id=%s", [userId, instanceId], True)):
         return jsonify(error="User has already commented on this game"), 409
-    db = get_cursor()
+    cur = get_cursor()
     try:
-        db.execute(
-            'INSERT INTO vote (instance_id, user_id, date, vote) VALUES (%s, %s, %s, %s)',
+        cur.execute(
+            'INSERT INTO vote (instance_id, user_id, date, vote) VALUES (%s, %s, %s, %s) returning id',
             (instanceId, userId, date, vote)
         )
+        id_of_new_row = cur.fetchone()['id']
+        current_app.logger.info('got id {}'.format(id_of_new_row))
         if comment:
-            db.execute('INSERT INTO comment (comment, vote_id) VALUES (%s,%s)',
-                       (comment, db.lastrowid))
+            cur.execute('INSERT INTO comment (comment, vote_id) VALUES (%s,%s)',
+                       (comment, id_of_new_row))
         commit_db()
-    except Exception as e:
-        current_app.logger.info(e)
-        return jsonify(error="something went wrong"), 400
+    except psycopg2.Error as e:
+        current_app.logger.info(e.pgerror)
+        return jsonify(error="something went wrong {}".format(e)), 400
 
     # comments = query_db('select g.name as game, c.comment, c.up - c.down as vote, c.date from comment c, game_instance gi, game g where c.user_id=%s and c.instance_id = gi.id and g.id=gi.game_id', [user.get("id")])
     return jsonify(success=True, comment=comment, game=request.form.get("game"), vote=vote, date=date)
