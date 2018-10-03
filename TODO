@@ -1,11 +1,10 @@
 BUG:
+  ☐ comment encoding (see fast rmx)
+  ☐ duplicate of fast rmx / neo (merge into rmx)
   ☐ remove item from typeahead in user admin after commenting
   ☐ calculation in modal wrong (see bad north)
-  
 
 Todo:
-  DEPLOYMENT:
-    ✔ move db to new one @done
 
   RELEASE:
     ☐ add changelog
@@ -22,7 +21,7 @@ Todo:
     Manage Games:
       ☐ manage genres
       ☐ reviews / trailer
-          id | gameid | link | site / channel | type (review / trailer)
+          id | instance_id | link | site / channel | type (review / trailer)
       ☐ sites
           id | name | url
     ☐ move from alert() to alert bootstrap component
@@ -57,12 +56,13 @@ Todo:
   Refactor:
     ☐ react?
     ☐ sqlalchemy?
-    ✔ pg? @done
 
   multi platforms:
     ☐ add dropdown nav per platform - treat current as 'All'
 
 Archive:
+  ✔ move db to new one @done @project(Todo.DEPLOYMENT)
+  ✔ pg? @done @project(Todo.Refactor)
   ✔ table resize on load @done @project(BUG)
   ✔ bad transition on add user @done @project(BUG)
   ✔ add vote direction on comment @done @project(BUG)
