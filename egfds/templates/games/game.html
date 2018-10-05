@@ -48,14 +48,14 @@
                 {% endif %}
                 {% for vote in votes %}
                 <dl class="row">
-                    <dd class="col-sm-2">
+                    <dd class="col-sm-3">
                         <p class="text-primary">{{ vote.username }}</p>
                         <p>{{ vote.date | strftime }}</p>
                     </dd>
                     <dd class="col-sm-1">
                         {{ macros.vote(vote=vote.vote) }}
                     </dd>
-                    <dd class="col-sm-9">{{ vote.comment }}</dd>
+                    <dd class="col-sm-8">{{ vote.comment }}</dd>
                 </dl>
                 {% endfor %}
             </dl>
