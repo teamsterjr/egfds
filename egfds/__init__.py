@@ -7,7 +7,7 @@ from . import games
 from . import admin
 from . import utils
 
-__version__='0.2.7'
+__version__='0.2.8'
 
 def create_app(test_config=None):
     # create and configure the app
@@ -30,6 +30,7 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
 
     db.init_app(app)
     admin.init_app(app)

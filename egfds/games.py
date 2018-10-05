@@ -1,9 +1,10 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
+    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify, current_app
 )
 from werkzeug.exceptions import abort
 
 from .db import get_cursor, query_db
+from urllib.parse import urlparse, parse_qs
 
 bp = Blueprint("games", __name__, url_prefix="/games")
 
@@ -18,6 +19,13 @@ def recommendations():
 def ajax_games():
     return jsonify({'data':get_games()})
 
+@bp.route('/<instance_id>/')
+def show_game(instance_id):
+    game = get_games(instance_id=instance_id, single=True, sort="name")
+    votes = get_votes(instance_id=instance_id, require_comment=True)
+    genres = query_db('select * from genre')
+    links = get_links(instance_id=instance_id)
+    return render_template("games/game.html", game=game, votes=votes, genres=genres, links=links)
 
 @bp.route('/<instanceId>/comments.json')
 def ajax_comments(instanceId):
@@ -74,7 +82,6 @@ def get_votes(**kwargs):
 
     if conditions:
         query = " WHERE ".join([query, " AND ".join(conditions)])
-
     return query_db(query, args)
 
 def get_games(single=False,**kwargs):
@@ -111,3 +118,32 @@ def get_games(single=False,**kwargs):
         """])
 
     return query_db(query, args, single)
+
+def get_links(**kwargs):
+    query="""
+
+
+
+        SELECT      lt.type as type,
+                g.link,
+                g.link_text,
+                s.name as site,
+                s.baseurl
+        FROM        game_link g
+        JOIN        game_link_type lt
+        ON          (lt.id=g.link_type_id)
+        JOIN        link_site s
+        ON          (g.link_site=s.id)
+        WHERE       game_instance_id=%s
+    """
+    links={}
+    for link in query_db(query, [kwargs['instance_id']]):
+        link_type = link.get('type')
+        if not links.get(link_type):
+            links[link_type] = []
+
+        link['parsed']=urlparse(link['link'])
+        link['qs']=parse_qs(link['parsed'].query)
+        links[link_type].append(link)
+
+    return links

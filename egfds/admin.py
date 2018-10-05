@@ -23,7 +23,7 @@ from flask import (
 from flask.cli import with_appcontext
 
 from .db import get_cursor, query_db, commit_db
-from .games import get_games, get_votes
+from .games import get_games, get_votes, get_links
 from .utils import login_required, populate_nav, londonToUtc
 
 bp = Blueprint("admin", __name__, url_prefix="/adm")
@@ -142,9 +142,10 @@ def show_user_profile(username):
 @login_required
 def show_game(instance_id):
     game = get_games(instance_id=instance_id, single=True, sort="name")
-    votes = get_votes(instance_id=instance_id, require_comment=True)
+    votes = get_votes(instance_id=instance_id, require_comment=False)
     genres = query_db('select * from genre')
-    return render_template("admin/game.html", game=game, votes=votes, genres=genres)
+    links = get_links(instance_id=instance_id)
+    return render_template("admin/game.html", game=game, votes=votes, genres=genres, links=links)
 
 
 @bp.route('/user/add-user', methods=["POST"])
