@@ -34,7 +34,7 @@ $(document).ready(function() {
               "&plus;" +
               row.up +
               " &times;" +
-              (row.num_votes - row.total) +
+              row.netral +
               " &minus;" +
               row.down +
               " #" +
