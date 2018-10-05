@@ -9,7 +9,7 @@ from .utils import populate_nav
 bp = Blueprint('main', __name__)
 
 def init_app(app):
-    app.add_url_rule('/favicon.ico', endpoint='favicon')
+    app.add_url_rule('/favicon.ico', 'favicon',favicon)
     app.context_processor(default_sections)
     if app.config['DEBUG']:
         app.after_request(bust_cache)
@@ -27,6 +27,7 @@ def register_assets(app):
         'js/external/datatables.js',
         'js/gametable.js',
         'js/egfds.js',
+        'js/admin.js',
         filters='jsmin',
         output='gen/js/packed.js'
     )

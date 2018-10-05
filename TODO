@@ -1,6 +1,7 @@
 BUG:
   ☐ comment encoding (see fast rmx)
   ☐ duplicate of fast rmx / neo (merge into rmx)
+  ☐ video size
   ☐ remove item from typeahead in user admin after commenting
   ☐ calculation in modal wrong (see bad north)
 
@@ -15,15 +16,15 @@ Todo:
     ☐ dry templates - macros
     ☐ rearrange blueprint templates
     ☐ move to oo / module js
-    ☐ pypika
+    ☐ pypika / sqlalchemy
 
   Admin:
-    Manage Games:
-      ☐ manage genres
-      ☐ reviews / trailer
-          id | instance_id | link | site / channel | type (review / trailer)
-      ☐ sites
-          id | name | url
+    ✔ links @done
+        id | instance_id | link | site / channel | type (review / trailer)
+    ✔ sites @done
+        id | name | url
+    ☐ manage genres
+    ☐ manage links / sites
     ☐ move from alert() to alert bootstrap component
     ☐ fix admin db error handling
     ☐ better validation
@@ -55,7 +56,6 @@ Todo:
 
   Refactor:
     ☐ react?
-    ☐ sqlalchemy?
 
   multi platforms:
     ☐ add dropdown nav per platform - treat current as 'All'

@@ -31,6 +31,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+
     db.init_app(app)
     admin.init_app(app)
     main.init_app(app)

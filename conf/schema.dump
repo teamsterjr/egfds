@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 10.5
--- Dumped by pg_dump version 10.5
+-- Dumped by pg_dump version 10.5 (Debian 10.5-1.pgdg90+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -146,6 +146,77 @@ ALTER SEQUENCE egfds.game_instance_id_seq OWNED BY egfds.game_instance.id;
 
 
 --
+-- Name: game_link; Type: TABLE; Schema: egfds; Owner: root
+--
+
+CREATE TABLE egfds.game_link (
+    id integer NOT NULL,
+    link text NOT NULL,
+    link_text text,
+    link_type_id integer,
+    game_instance integer
+);
+
+
+ALTER TABLE egfds.game_link OWNER TO root;
+
+--
+-- Name: game_link_id_seq; Type: SEQUENCE; Schema: egfds; Owner: root
+--
+
+CREATE SEQUENCE egfds.game_link_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE egfds.game_link_id_seq OWNER TO root;
+
+--
+-- Name: game_link_id_seq; Type: SEQUENCE OWNED BY; Schema: egfds; Owner: root
+--
+
+ALTER SEQUENCE egfds.game_link_id_seq OWNED BY egfds.game_link.id;
+
+
+--
+-- Name: game_link_type; Type: TABLE; Schema: egfds; Owner: root
+--
+
+CREATE TABLE egfds.game_link_type (
+    id integer NOT NULL,
+    type text
+);
+
+
+ALTER TABLE egfds.game_link_type OWNER TO root;
+
+--
+-- Name: game_link_type_id_seq; Type: SEQUENCE; Schema: egfds; Owner: root
+--
+
+CREATE SEQUENCE egfds.game_link_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE egfds.game_link_type_id_seq OWNER TO root;
+
+--
+-- Name: game_link_type_id_seq; Type: SEQUENCE OWNED BY; Schema: egfds; Owner: root
+--
+
+ALTER SEQUENCE egfds.game_link_type_id_seq OWNED BY egfds.game_link_type.id;
+
+
+--
 -- Name: genre; Type: TABLE; Schema: egfds; Owner: root
 --
 
@@ -212,10 +283,10 @@ ALTER SEQUENCE egfds.platform_id_seq OWNED BY egfds.platform.id;
 
 
 --
--- Name: user; Type: TABLE; Schema: egfds; Owner: root
+-- Name: user_account; Type: TABLE; Schema: egfds; Owner: root
 --
 
-CREATE TABLE egfds."user" (
+CREATE TABLE egfds.user_account (
     id bigint NOT NULL,
     username character varying(30) NOT NULL,
     admin boolean DEFAULT false NOT NULL,
@@ -224,7 +295,7 @@ CREATE TABLE egfds."user" (
 );
 
 
-ALTER TABLE egfds."user" OWNER TO root;
+ALTER TABLE egfds.user_account OWNER TO root;
 
 --
 -- Name: user_id_seq; Type: SEQUENCE; Schema: egfds; Owner: root
@@ -244,7 +315,7 @@ ALTER TABLE egfds.user_id_seq OWNER TO root;
 -- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: egfds; Owner: root
 --
 
-ALTER SEQUENCE egfds.user_id_seq OWNED BY egfds."user".id;
+ALTER SEQUENCE egfds.user_id_seq OWNED BY egfds.user_account.id;
 
 
 --
@@ -305,6 +376,20 @@ ALTER TABLE ONLY egfds.game_instance ALTER COLUMN id SET DEFAULT nextval('egfds.
 
 
 --
+-- Name: game_link id; Type: DEFAULT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game_link ALTER COLUMN id SET DEFAULT nextval('egfds.game_link_id_seq'::regclass);
+
+
+--
+-- Name: game_link_type id; Type: DEFAULT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game_link_type ALTER COLUMN id SET DEFAULT nextval('egfds.game_link_type_id_seq'::regclass);
+
+
+--
 -- Name: genre id; Type: DEFAULT; Schema: egfds; Owner: root
 --
 
@@ -319,10 +404,10 @@ ALTER TABLE ONLY egfds.platform ALTER COLUMN id SET DEFAULT nextval('egfds.platf
 
 
 --
--- Name: user id; Type: DEFAULT; Schema: egfds; Owner: root
+-- Name: user_account id; Type: DEFAULT; Schema: egfds; Owner: root
 --
 
-ALTER TABLE ONLY egfds."user" ALTER COLUMN id SET DEFAULT nextval('egfds.user_id_seq'::regclass);
+ALTER TABLE ONLY egfds.user_account ALTER COLUMN id SET DEFAULT nextval('egfds.user_id_seq'::regclass);
 
 
 --
@@ -330,6 +415,22 @@ ALTER TABLE ONLY egfds."user" ALTER COLUMN id SET DEFAULT nextval('egfds.user_id
 --
 
 ALTER TABLE ONLY egfds.vote ALTER COLUMN id SET DEFAULT nextval('egfds.vote_id_seq'::regclass);
+
+
+--
+-- Name: game_link game_link_pkey; Type: CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game_link
+    ADD CONSTRAINT game_link_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: game_link_type game_link_type_pkey; Type: CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game_link_type
+    ADD CONSTRAINT game_link_type_pkey PRIMARY KEY (id);
 
 
 --
@@ -373,10 +474,10 @@ ALTER TABLE ONLY egfds.platform
 
 
 --
--- Name: user idx_16547_primary; Type: CONSTRAINT; Schema: egfds; Owner: root
+-- Name: user_account idx_16547_primary; Type: CONSTRAINT; Schema: egfds; Owner: root
 --
 
-ALTER TABLE ONLY egfds."user"
+ALTER TABLE ONLY egfds.user_account
     ADD CONSTRAINT idx_16547_primary PRIMARY KEY (id);
 
 
@@ -427,7 +528,7 @@ CREATE UNIQUE INDEX idx_16541_name ON egfds.platform USING btree (name);
 -- Name: idx_16547_username; Type: INDEX; Schema: egfds; Owner: root
 --
 
-CREATE UNIQUE INDEX idx_16547_username ON egfds."user" USING btree (username);
+CREATE UNIQUE INDEX idx_16547_username ON egfds.user_account USING btree (username);
 
 
 --
@@ -484,6 +585,22 @@ ALTER TABLE ONLY egfds.game_instance
 
 
 --
+-- Name: game_link game_link_game_instance_fkey; Type: FK CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game_link
+    ADD CONSTRAINT game_link_game_instance_fkey FOREIGN KEY (game_instance) REFERENCES egfds.game_link_type(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: game_link game_link_link_type_id_fkey; Type: FK CONSTRAINT; Schema: egfds; Owner: root
+--
+
+ALTER TABLE ONLY egfds.game_link
+    ADD CONSTRAINT game_link_link_type_id_fkey FOREIGN KEY (link_type_id) REFERENCES egfds.game_instance(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
 -- Name: vote vote_ibfk_1; Type: FK CONSTRAINT; Schema: egfds; Owner: root
 --
 
@@ -496,7 +613,7 @@ ALTER TABLE ONLY egfds.vote
 --
 
 ALTER TABLE ONLY egfds.vote
-    ADD CONSTRAINT vote_ibfk_2 FOREIGN KEY (user_id) REFERENCES egfds."user"(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT vote_ibfk_2 FOREIGN KEY (user_id) REFERENCES egfds.user_account(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --
