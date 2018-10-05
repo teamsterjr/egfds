@@ -1,18 +1,18 @@
 BUG:
-  ☐ comment encoding (see fast rmx)
+  ✔ comment encoding (see fast rmx) @done
   ✔ duplicate of fast rmx / neo (merge into rmx) @done
   ☐ video size
   ☐ remove item from typeahead in user admin after commenting
-  ☐ calculation in modal wrong (see bad north)
+  ✔ calculation in modal wrong (see bad north) @done
 
 Todo:
 
   RELEASE:
     ☐ add changelog
-    ☐ fix manual release - use eb cli
+    ☐ fix manual release - use eb /aws cli
 
   Refactor:
-    ☐ add neutral votes in calculations rather than everywhere
+    ✔ add neutral votes in calculations rather than everywhere @done
     ☐ dry templates - macros
     ☐ rearrange blueprint templates
     ☐ move to oo / module js

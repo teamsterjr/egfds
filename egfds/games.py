@@ -25,7 +25,7 @@ def show_game(instance_id):
     votes = get_votes(instance_id=instance_id, require_comment=True)
     genres = query_db('select * from genre')
     links = get_links(instance_id=instance_id)
-    return render_template("games/game.html", game=game, votes=votes, genres=genres, links=links)
+    return render_template("games/game.html", game=game, votes=votes, genres=genres, links=links, include_dismiss=True)
 
 @bp.route('/<instanceId>/comments.json')
 def ajax_comments(instanceId):

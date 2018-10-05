@@ -3,7 +3,7 @@
 {%- endmacro %}
 
 {% macro scores (game) -%}
-                <ul class=" col-9 list-inline">
+                <ul class="list-inline">
                     <li class="list-inline-item"><strong>{{ game.total | default(0)}}</strong></li>
                     <li class="up-vote list-inline-item">&plus; {{ game.up |default(0) }}</li>
                     <li class="no-vote list-inline-item">&times; {{ game.num_votes - game.up - game.down |

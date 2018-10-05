@@ -1,63 +1,65 @@
 {% import 'macros.html' as macros %}
-
 <div class="card">
-
     <div class="card-header">
-        <div class="row justify-content-between">
-            <div class="col-4">
-                <h3>{{ game.name }}</h3>
-            </div>
-            <div class="col-4 text-right">
-                {{ game.genre }}
-            </div>
-        </div>
-        <div class="row">
+
+{% if include_dismiss %}
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+{% endif %}
+        <h3>{{ game.name }}</h3>
+
+        <p id="genres">
+            {{ game.genre }}
+        </p>
+        <p id="scores">
             {{ macros.scores(game) }}
-        </div>
-        <p>Trailer{{ "s" if links.Trailer|length > 1 else "" }}:</p>
+        </p>
+        <label for="trailers">Trailer{{ "s" if links.Trailer|length > 1 else "" }}:</label>
         <ul class="list-group list-group-flush accordion" id="trailers">
-        {% for link in links.Trailer %}
-        {% if link.site == 'YouTube' %}
-        <li class="list-unstyled ">
-            <div>
-            <a  href="#"
-                id="heading{{loop.index}}"
-                class='videoOpen'
-                data-toggle="collapse"
-                data-target="#collapse{{loop.index}}"
-                aria-expanded="false"
-                aria-controls="collapse{{loop.index}}"
-                data-link="{{link.link}}"
-                data-video="https://www.youtube.com/embed/{{ link.qs.v[0] }}?rel=0"
-                >{{link.link_text }}</a>
-            </div>
-            <div id="collapse{{loop.index}}" class="collapse collapsed videoCollapse" aria-labelledby="heading{{loop.index}}" data-parent="#trailers">
-                        <iframe frameborder=0 class="videoFrame" src="" allowfullscreen="allowfullscreen"></iframe>
-            </div>
-        </li>
-        {% endif %}
-        {% endfor %}
+            {% for link in links.Trailer %}
+            {% if link.site == 'YouTube' %}
+            <li class="list-unstyled ">
+                <div>
+                    <a href="#" id="heading{{loop.index}}" class='videoOpen' data-toggle="collapse" data-target="#collapse{{loop.index}}"
+                        aria-expanded="false" aria-controls="collapse{{loop.index}}" data-link="{{link.link}}"
+                        data-video="https://www.youtube.com/embed/{{ link.qs.v[0] }}?rel=0">{{link.link_text }}</a>
+                </div>
+                <div id="collapse{{loop.index}}" class="collapse collapsed videoCollapse" aria-labelledby="heading{{loop.index}}"
+                    data-parent="#trailers">
+                    <iframe frameborder=0 class="videoFrame" src="" allowfullscreen="allowfullscreen"></iframe>
+                </div>
+            </li>
+            {% endif %}
+            {% endfor %}
         </ul>
     </div>
 
     <div class="card-body">
         <div class="card-text">
-            <dl class="comments-table container ">
-                {% if not votes %}
-                No comments (yet)
-                {% endif %}
+            {% if not votes %}
+            No comments (yet)
+            {% else %}
+            <ul class="list-group">
                 {% for vote in votes %}
-                <dl class="row">
-                    <dd class="col-sm-3">
-                        <p class="text-primary">{{ vote.username }}</p>
-                        <p>{{ vote.date | strftime }}</p>
-                    </dd>
-                    <dd class="col-sm-1">
-                        {{ macros.vote(vote=vote.vote) }}
-                    </dd>
-                    <dd class="col-sm-8">{{ vote.comment }}</dd>
-                </dl>
+                <li class='list-group-item'>
+                    <dl class="row comments-table">
+                        <dd class="col-sm-3">
+                            <dl>
+                                <dt class="text-primary">{{ vote.username }}</dt>
+                                <dd>{{ vote.date | strftime }}</dd>
+                            </dl>
+                            </dt>
+                        <dd class="col-sm-1">
+                            {{ macros.vote(vote=vote.vote) }}
+                        </dd>
+                        <dd class="col-sm-8">{{ vote.comment }}</dd>
+                    </dl>
+                </li>
                 {% endfor %}
-            </dl>
+            </ul>
+            {% endif %}
         </div>
     </div>
+
+</div>
