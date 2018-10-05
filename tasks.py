@@ -34,7 +34,8 @@ def build(c, docs=False):
         'TODO',
         'requirements.txt',
         'conf/uwsgi.ini',
-        'Dockerfile'
+        'Dockerfile',
+        '.ebextensions'
     ]:
         if os.path.isdir(file):
             shutil.copytree(file, 'build/{}'.format(file))
