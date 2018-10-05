@@ -1,6 +1,7 @@
 BUG:
   ✔ comment encoding (see fast rmx) @done
   ✔ duplicate of fast rmx / neo (merge into rmx) @done
+  ☐ tidy up letsencrypt - move to startup script
   ☐ video size
   ☐ remove item from typeahead in user admin after commenting
   ✔ calculation in modal wrong (see bad north) @done
