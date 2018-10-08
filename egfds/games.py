@@ -105,6 +105,8 @@ def get_games(single=False,**kwargs):
         LEFT join       game_instance gi on g.id=gi.game_id
         LEFT join       vote v on v.instance_id = gi.id
         LEFT join       comment c on v.id = c.vote_id
+        LEFT JOIN       game_genre gge on gge.game_id = g.id
+        LEFT join       genre ge on gge.genre_id = ge.id
     """
 
     args = []
@@ -117,10 +119,18 @@ def get_games(single=False,**kwargs):
         query = " WHERE ".join([query, " AND ".join(conditions)])
 
     query = "".join([query, """
-        GROUP BY        gi.id, g.id
+        GROUP BY        gi.id, g.id, ge.name
+        """])
+
+    if kwargs.get('genre'):
+        args.append(kwargs['genre'])
+        query = " ".join([query, "HAVING ge.name = %s"])
+
+    query = "".join([query, """
         ORDER BY        total desc, num_votes desc
         """])
 
+    current_app.logger.info(query)
     return query_db(query, args, single)
 
 def get_links(**kwargs):
