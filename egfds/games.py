@@ -95,9 +95,13 @@ def get_games(single=False,**kwargs):
         COALESCE(SUM(v.vote),0)                     as total,
         COUNT(v.id)                     as num_votes,
         COUNT(c.id)                     as num_comments,
-        ge.name                         as genre
+        (
+            SELECT          string_agg(ge.name, ', ') as genre
+            FROM            game_genre gge
+            LEFT join       genre ge on gge.genre_id = ge.id
+            WHERE           gge.game_id = g.id order by g.id
+        )
         FROM            game g
-        LEFT join       genre ge on ge.id=g.genre_id
         LEFT join       game_instance gi on g.id=gi.game_id
         LEFT join       vote v on v.instance_id = gi.id
         LEFT join       comment c on v.id = c.vote_id
@@ -113,7 +117,7 @@ def get_games(single=False,**kwargs):
         query = " WHERE ".join([query, " AND ".join(conditions)])
 
     query = "".join([query, """
-        GROUP BY        gi.id, g.id, ge.name
+        GROUP BY        gi.id, g.id
         ORDER BY        total desc, num_votes desc
         """])
 
