@@ -1,6 +1,8 @@
 $(document).ready(function() {
   // datastore for games
-  var games = new Bloodhound({
+  var games;
+  if($('.typeahead#game').length){
+  games = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     prefetch: {
@@ -11,6 +13,7 @@ $(document).ready(function() {
       }
     }
   });
+}
 
   // game typeahead
   $(".typeahead#game")

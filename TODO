@@ -1,12 +1,15 @@
 BUG:
   ✔ comment encoding (see fast rmx) @done
   ✔ duplicate of fast rmx / neo (merge into rmx) @done
+  ☐ editor forces 4 space on todo list :)
   ☐ tidy up letsencrypt - move to startup script
   ☐ video size
   ☐ remove item from typeahead in user admin after commenting
   ✔ calculation in modal wrong (see bad north) @done
 
 Todo:
+  multi platforms:
+    ☐ add dropdown nav per platform - treat current as 'All'
 
   RELEASE:
     ☐ add changelog
@@ -43,10 +46,16 @@ Todo:
     ☐ pagination
     ☐ marmite mode
 
-  ☐ multi genre
+  ✔ multi genre @done
 
   Assets:
     ☐ proper svg sprite map
+
+  50 IN 50:
+    ☐ add games played / start end / bought
+
+  Feature:
+    ☐ dlc (and separate vote / comment)
 
   Open to users:
     ☐ ssl
@@ -58,8 +67,6 @@ Todo:
   Refactor:
     ☐ react?
 
-  multi platforms:
-    ☐ add dropdown nav per platform - treat current as 'All'
 
 Archive:
   ✔ move db to new one @done @project(Todo.DEPLOYMENT)

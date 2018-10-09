@@ -86,27 +86,29 @@ def get_votes(**kwargs):
 
 def get_games(single=False,**kwargs):
     query = """
-    SELECT  g.id                    as game_id,
+        SELECT  distinct g.id                    as game_id,
         gi.id                           as instance_id,
         g.name                          as name,
-        COALESCE(SUM( CASE WHEN v.vote=1 THEN 1 END),0)  as up,
-        COALESCE(SUM( CASE WHEN v.vote=-1 THEN 1 END),0)  as down,
-        COALESCE(SUM( CASE WHEN v.vote=0 THEN 1 END),0)  as netral,
-        COALESCE(SUM(v.vote),0)                     as total,
-        COUNT(v.id)                     as num_votes,
-        COUNT(c.id)                     as num_comments,
-        (
-            SELECT          string_agg(ge.name, ', ') as genre
-            FROM            game_genre gge
-            LEFT join       genre ge on gge.genre_id = ge.id
-            WHERE           gge.game_id = g.id order by g.id
-        )
+        string_agg(ge.name,', ' order by ge.id) as genre,
+        coalesce(v.total,0) as total,
+        coalesce(v.up,0) as up,
+        coalesce(v.down,0) as down,
+        coalesce(v.neutral,0) as neutral,
+        coalesce(v.num_comments,0) as num_comments,
+        coalesce(v.num_votes,0) as num_votes
         FROM            game g
         LEFT join       game_instance gi on g.id=gi.game_id
-        LEFT join       vote v on v.instance_id = gi.id
-        LEFT join       comment c on v.id = c.vote_id
-        LEFT JOIN       game_genre gge on gge.game_id = g.id
-        LEFT join       genre ge on gge.genre_id = ge.id
+        LEFT join       game_genre gge on gge.game_id = g.id
+        LEFT join       genre ge on ge.id=gge.genre_id
+        LEFT join       (
+            select v.instance_id,
+                    SUM( CASE WHEN v.vote=1 THEN 1 END)  as up,
+                    SUM( CASE WHEN v.vote=-1 THEN 1 END)  as down,
+                    SUM( CASE WHEN v.vote=0 THEN 1 END)  as neutral,
+                    SUM(v.vote)                     as total,
+                    COUNT(v.id)                     as num_votes,
+                    COUNT(c.id)                     as num_comments
+              from vote v left join comment c on c.vote_id=v.id group by instance_id) as v on v.instance_id=gi.id
     """
 
     args = []
@@ -119,18 +121,19 @@ def get_games(single=False,**kwargs):
         query = " WHERE ".join([query, " AND ".join(conditions)])
 
     query = "".join([query, """
-        GROUP BY        gi.id, g.id, ge.name
+        group by gi.id, g.id, v.total, v.up, v,down, v,neutral, v.num_comments, v.num_votes
         """])
 
     if kwargs.get('genre'):
-        args.append(kwargs['genre'])
-        query = " ".join([query, "HAVING ge.name = %s"])
+        args.append(kwargs.get('genre'))
+        query = "".join([query, """
+            having %s = any(array_agg(ge.name))
+            """])
 
     query = "".join([query, """
         ORDER BY        total desc, num_votes desc
         """])
 
-    current_app.logger.info(query)
     return query_db(query, args, single)
 
 def get_links(**kwargs):
