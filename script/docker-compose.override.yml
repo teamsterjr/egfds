@@ -6,20 +6,14 @@ services:
     build:
       context: ..
     external_links:
-      - egfds-postgres:db
+      - egfds-postgres:postgres-dev
     ports:
       - 5000:8080
     environment:
-      - RDS_HOSTNAME=db
-      - RDS_PASSWORD=blah
+      - RDS_HOSTNAME=postgres-dev
       - FLASK_ENV=development
     volumes:
       - ../egfds:/app/egfds
     entrypoint:
       - python
     command: ["egfds/application.py"]
-
-networks:
-  default:
-    external:
-      name: pgsql

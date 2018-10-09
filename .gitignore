@@ -11,11 +11,12 @@ dist/
 build/
 *.egg-info/
 secret.py
+script/.env
 
 egfds*.zip
 
 node_modules
-**/docker-compose*prod*
 
 **/gen/*
 **/.webassets-cache
+script/db/pgpass

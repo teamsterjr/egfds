@@ -3,3 +3,32 @@ version: '3.1'
 services:
   egfds:
     image: egfds
+
+  pg:
+    image: pgconnect:dev
+    build:
+      context: db
+    external_links:
+      - egfds-postgres:postgres-dev
+    extra_hosts:
+      - postgres-live:${LIVE_IP}
+    volumes:
+      - ../../:/data
+
+  pgs:
+    image: postgres:10-alpine
+    container_name: egfds-postgres
+    volumes:
+      - pgDBData2:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=blah
+      - POSTGRES_USER=root
+
+networks:
+  default:
+    external:
+      name: pgsql
+
+volumes:
+  pgDBData2:
+    external: true
